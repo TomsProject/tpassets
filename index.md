@@ -1,9 +1,4 @@
-## Welcome to GitHub Pages
-
-You can use the [editor on GitHub](https://github.com/TomsProject/tomsproject.github.io/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
-
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
+## Welcome to Toms Project
 ### Markdown
 
 Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
@@ -28,10 +23,109 @@ Syntax highlighted code block
 
 For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
 
-### Jekyll Themes
+### Support
+we support this:
+```html
+<html>
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/TomsProject/tomsproject.github.io/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+<head>
+<title>我的第一个 HTML 页面</title>
+</head>
 
-### Support or Contact
+<body>
+<p style="color:red;">body 元素的内容会显示在浏览器中。</p>
+<p>title 元素的内容会显示在浏览器的标题栏中。</p>
+</body>
 
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+</html>
+```
+and this:
+```c++
+#include <iostream>
+using namespace std;
+int main()
+{
+cout<<"yes!suppot";
+//we make it
+return 0;
+}
+```
+also this
+```python
+import random as r
+import time as t
+print("also suppot")
+while True:
+t.sleep(10)
+#sleep forever
+```
+###so, that's why i want to make an .md website!
+###my site's code(markdown):
+```markdown
+## Welcome to Toms Project
+### Markdown
+
+Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+
+```markdown
+Syntax highlighted code block
+
+# Header 1
+## Header 2
+### Header 3
+
+- Bulleted
+- List
+
+1. Numbered
+2. List
+
+**Bold** and _Italic_ and `Code` text
+
+[Link](url) and ![Image](src)
+```
+
+For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+
+### Support
+we support this:
+```html
+<html>
+
+<head>
+<title>我的第一个 HTML 页面</title>
+</head>
+
+<body>
+<p style="color:red;">body 元素的内容会显示在浏览器中。</p>
+<p>title 元素的内容会显示在浏览器的标题栏中。</p>
+</body>
+
+</html>
+```
+and this:
+```c++
+#include <iostream>
+using namespace std;
+int main()
+{
+cout<<"yes!suppot";
+//we make it
+return 0;
+}
+```
+also this
+```python
+import random as r
+import time as t
+print("also suppot")
+while True:
+t.sleep(10)
+#sleep forever
+```
+###so, that's why i want to make an .md website!
+###my site's code(markdown):
+```markdown
+
+```
+```
