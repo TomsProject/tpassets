@@ -999,8 +999,8 @@ footer {
 
 #leafContainer>div>img {
     position: absolute;
-    width: 50px;
-    height: 40px;
+    width: 80px;
+    height: 60px;
     -webkit-animation-iteration-count: infinite;
     -webkit-animation-direction: alternate;
     -webkit-animation-timing-function: ease-in-out;
