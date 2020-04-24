@@ -39,17 +39,17 @@
 
 .number-item {
     text-align: center;
-    width: 30px;
-    height: 50px;
+    width: 40px;
+    height: 65px;
     line-height: 70px;
     float: left;
     background: #10213b;
-    box-shadow: 0 0 6px 0 #3f6bcb;
+    box-shadow: 0 0 9px 0 #3f6bcb;
     list-style: none;
     font-family: Digital-7;
-    font-size: 40px;
+    font-size: 60px;
     color: white;
-    margin-right: 8px;
+    margin-right: 11px;
     display: flex;
     justify-content: center
 }
