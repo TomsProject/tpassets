@@ -26,6 +26,7 @@
     -khtml-user-select: none;
     user-select: none;
     z-index: 100025;
+    position: fixed;
 }
 
 .mark-item span {
