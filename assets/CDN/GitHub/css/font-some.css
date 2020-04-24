@@ -24,7 +24,8 @@
     -webkit-user-select: none;
     -ms-user-select: none;
     -khtml-user-select: none;
-    user-select: none
+    user-select: none;
+    z-index: 100025;
 }
 
 .mark-item span {
