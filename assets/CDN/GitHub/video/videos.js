@@ -1,0 +1,1 @@
+var safe = true;
