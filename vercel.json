@@ -6,7 +6,7 @@
       "headers": { "Cache-Control": "max-age=86400" },
       "continue": true
     },
-    { 
+    {
       "handle": "filesystem"
     }
   ]
