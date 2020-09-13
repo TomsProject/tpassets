@@ -1,5 +1,9 @@
 {
   "routes": [
+    { 
+      "handle": "filesystem",
+      "headers": { "Cache-Control": "max-age=86400" }
+    },
     {
       "src": "/(.*)",
       "headers": { "Cache-Control": "max-age=86400" },
