@@ -3,15 +3,15 @@
     { 
       "handle": "filesystem"
     },
-    { 
-      "src": "/(.*)", 
-      "status": 404, 
-      "dest": "/404.html" 
-    },
     {
       "src": "/(.*)",
       "headers": { "cache-control": "max-age=604800" },
       "dest": "/$1"
+    },
+    { 
+      "src": "/(.*)", 
+      "status": 404, 
+      "dest": "/404.html" 
     }
   ]
 }
