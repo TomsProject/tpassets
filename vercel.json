@@ -1,6 +1,16 @@
 {
   "routes": [
-    { "handle": "filesystem" },
-    { "src": "/(.*)", "status": 404, "dest": "/404.html" }
+    { 
+      "handle": "filesystem"
+    },
+    { 
+      "src": "/(.*)", 
+      "status": 404, 
+      "dest": "/404.html" 
+    },
+    { 
+      "src": "/(.*)", 
+      "headers": { "Cache-Control": "max-age=604800" }
+    }
   ]
 }
