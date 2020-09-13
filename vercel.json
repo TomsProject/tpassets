@@ -2,7 +2,9 @@
   "routes": [
     {
       "handle": "filesystem",
-      "headers": { "Cache-Control": "max-age=86400" }
+      "headers": {
+        "Cache-Control": "max-age=86400"
+      }
     },
     {
       "src": "/(.*)",
