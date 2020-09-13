@@ -8,10 +8,10 @@
       "status": 404, 
       "dest": "/404.html" 
     },
-    { 
-      "src": "/(.*)", 
+    {
+      "src": "/(.*)",
       "headers": { "cache-control": "max-age=604800" },
-      "continue": true
+      "dest": "/$1"
     }
   ]
 }
