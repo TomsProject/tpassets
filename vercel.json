@@ -1,12 +1,12 @@
 {
   "routes": [
     {
-      "src": "/(.*)", 
+      "src": "/(.*)",
       "headers": { "Cache-Control": "max-age=86400" },
       "continue": true
     },
     { 
-      "src": "/(.*)", 
+      "src": "/(.*)",
       "status": 404, 
       "dest": "/404.html" 
     }
