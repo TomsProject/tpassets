@@ -3,10 +3,7 @@
   "routes": [
     {
       "src": "/(.*)",
-      "headers": { 
-        "Cache-Control": "max-age=604800",
-        "Server": "TP_Assets"
-      },
+      "headers": { "Cache-Control": "max-age=604800" },
       "continue": true
     },
     {
