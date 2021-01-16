@@ -7,6 +7,11 @@
       "continue": true
     },
     {
+      "src": "/(.m4s)",
+      "headers": { "Content-Type": "video/iso.segment" },
+      "continue": true
+    },
+    {
       "handle": "filesystem"
     },
     { 
