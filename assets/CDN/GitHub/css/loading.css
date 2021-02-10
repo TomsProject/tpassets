@@ -303,7 +303,7 @@
 .L_transform .trans_bg{position: relative;float: left;margin-left: 26px;width:300px;height:300px;}
 
 .L_transform .bg_shade {
-  background: url(https://assets.projectoms.com/assets/CDN/GitHub/image/page/quan_bg.png) no-repeat;
+  background: url(https://assets.projectoms.com/image/page/quan_bg.png) no-repeat;
   width: 419px;
   height: 390px;
   position: absolute;
@@ -320,8 +320,8 @@
 .trans_bg .circles.active .trio i{width:2px;height:2px;background: #48abe4;display: inline-block;position: absolute;top: 38px;left: 30px;
   animation: sbw 1s;border-radius: 100%;opacity: 0;} 
 .trans_bg .heart_box{width: 301px;display: inline-block;height: 300px;}
-.trans_bg .heart_box .heart{position:absolute;width:88px;height:88px;background: url(https://assets.projectoms.com/assets/CDN/GitHub/image/page/quan_circle.png) no-repeat;left: 105px;top: 105px;}
-.trans_bg .heart_box .shan{width: 211px;height: 129px;background: url(https://assets.projectoms.com/assets/CDN/GitHub/image/page/quan_rotate.png) no-repeat;top: 25px;left: 42px;position: absolute;
+.trans_bg .heart_box .heart{position:absolute;width:88px;height:88px;background: url(https://assets.projectoms.com/image/page/quan_circle.png) no-repeat;left: 105px;top: 105px;}
+.trans_bg .heart_box .shan{width: 211px;height: 129px;background: url(https://assets.projectoms.com/image/page/quan_rotate.png) no-repeat;top: 25px;left: 42px;position: absolute;
   -webkit-transform-origin: 107px 124px;
   transform-origin: 108px 124px;
   transform: rotate(0deg);
