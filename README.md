@@ -7,7 +7,7 @@ Vercel is a serverless sevice but it also provide a custom content delivery netw
 
 Thanks to Vercel, we can have a better network performance with Vercel AGA.
 
-AGA's one big problem is that it dosn't support IPv6, so we use Google Cloud CDN to slove this.
+AGA's one big problem is that it dosn't support IPv6, so we use Cloudflare CDN to slove this.
 
 That's all about this repository and I hope you'll enjoy it!
 
