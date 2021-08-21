@@ -22,8 +22,4 @@ After trying Alibaba, Tencent, Qiniu, Upyun and Baidu AI Cloud, we found Tencent
 
 Tencent's CDN dosn't support TLS 1.3 now, and this will be sloved as fast as possible.
 
----
-One more problem: DNS provied by Alibaba is fast in China but slow around world, we will slove this later.
-
----
 Toms Project, 2021
