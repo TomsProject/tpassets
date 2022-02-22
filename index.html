@@ -1,61 +1,74 @@
 <!DOCTYPE html>
 <html class="pack">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Welcome | TomsProject Assets</title>
-<style type="text/css">
-.nos{
-				text-align:center;
-				color:red;
-				font-size:60px;
-				width:80%;
-				margin-left:11%;
-}
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Welcome | TomsProject Assets</title>
+    <style type="text/css">
+        body {
+            margin: 0px;
+        }
 
-.footer_copyright
-{
-				background-color:gray;
-				color:white;
-			    text-align:center;
-			    height:180px;
-}
+        .nos {
+            text-align: center;
+            color: red;
+            font-size: 60px;
+            width: 80%;
+            margin-left: 11%;
+        }
 
-.pack{
-			 background-color:#FFFFCC;
-}
-.csss{
-				font-size:small;
-				color:gray;
-}
-</style>
-<link rel="icon" type="image/Icon" href="https://assets.projectoms.com/image/Icon/big/icon-1024.webp" />
-<meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" >
+        .footer_copyright {
+            background-color: gray;
+            color: white;
+            text-align: center;
+            height: 180px;
+        }
+
+        .pack {
+            background-color: #FFFFCC;
+        }
+
+        .csss {
+            font-size: small;
+            color: gray;
+        }
+
+        .mahp {
+            margin-left: 8px;
+        }
+    </style>
+    <link rel="icon" type="image/Icon" href="https://assets.projectoms.com/image/Icon/big/icon-1024.webp" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no">
 </head>
 <body>
-<h1>Welcome to TomsProject Assets!</h1>
-<h3>We have all Toms Project's important assets here.</h3>
-<h2>How does this website work?</h2>
-<p>First of all, to get Toms Project's assets, users should get our server's IP address first, so for DNS we choose AliDNS(Unicast, just for mainland China users) + AWS Route 53(Anycast) which is super fast for users all around the world.</p>
-<p>For visiters in mainland China, they'll use Tencent Cloud's CDN (Support IPv4 + IPv6) which has more than 300 Unicast POPs in mainland China.</p>
-<p>For visiters in Russia & CIS, they'll use G Core Labs' CDN (Support IPv4 + IPv6) which has 42 Anycast POPs in Russia & CIS.</p>
-<p>For visiters around the world, they'll use AWS Global Accelerator & Vercel (IPv4 only) which has 96 Anycast POPs worldwide. IPv6 users will hit Cloudflare CDN that include about 220 Anycast POPs worldwide which is fast.</p>
-<p>More info & Architecture diagram, please visit <a href="https://assets.projectoms.com/image/page/tpassets-22-01.webp">Information Graph 2022-01 Version</a>
-<div class="footer_copyright">  
-<p class="pco"> Copyright &copy; 2017 - <span id="footyear"></span> 
-<br>TomsProject (BeiJing) Network Co.,Ltd. All Rights Reserved.<br><em>汤姆的项目网络科技有限公司 版权所有</em>
-</p>                   
-<p>Website Created by Toms Project.</p>   
-<p>京ICP备19007812号-2</p>  
-
-</div> 
-<script type="text/javascript">  
- //2017-2022 TomsProject (BeiJing) Network Co.,Ltd. All Rights Reserved. v2.0
- function clock(){  
-    var time=new Date();  
-    var year=time.getFullYear();  
-    document.getElementById("footyear").innerHTML = year;  
-  }  
-  clock(); 
-</script> 
+    <h1 class="mahp">Welcome to TomsProject Assets!</h1>
+    <h3 class="mahp">We have all Toms Project's important assets here.</h3>
+    <h2 class="mahp">How does this website work?</h2>
+    <p class="mahp">First of all, to get Toms Project's assets, users should get our server's IP address first, so for DNS we choose
+        AliDNS(Unicast, just for mainland China users) + AWS Route 53(Anycast) which is super fast for users all around
+        the world.</p>
+    <p class="mahp">For visiters in mainland China, they'll use Tencent Cloud's CDN (Support IPv4 + IPv6) which has more than 300
+        Unicast POPs in mainland China.</p>
+    <p class="mahp">For visiters in Russia & CIS, they'll use G Core Labs' CDN (Support IPv4 + IPv6) which has 42 Anycast POPs in
+        Russia & CIS.</p>
+    <p class="mahp">For visiters around the world, they'll use AWS Global Accelerator & Vercel (IPv4 only) which has 96 Anycast POPs
+        worldwide. IPv6 users will hit Cloudflare CDN that include about 220 Anycast POPs worldwide which is fast.</p>
+    <p class="mahp">More info & Architecture diagram, please visit <a href="https://assets.projectoms.com/image/page/tpassets-22-01.webp">Information Graph 2022-01 Version</a>
+        
+    <div class="footer_copyright">
+        <p class="pco"> Copyright &copy; 2017 - <span id="footyear"></span>
+            <br>TomsProject (BeiJing) Network Co.,Ltd. All Rights Reserved.<br><em>汤姆的项目网络科技有限公司 版权所有</em>
+        </p>
+        <p>Website Created by Toms Project.</p>
+        <p>京ICP备19007812号-2</p>
+    </div>
+    <script type="text/javascript">
+        //2017-2022 TomsProject (BeiJing) Network Co.,Ltd. All Rights Reserved. v2.0
+        function clock() {
+            var time = new Date();
+            var year = time.getFullYear();
+            document.getElementById("footyear").innerHTML = year;
+        }
+        clock();
+    </script>
 </body>
 </html>
