@@ -110,7 +110,7 @@
 			$(a).hide();
 			var tht = document.getElementById("tplayer");
 			tht.style.display = 'block';
-			$(a).after("<div class=\"tp-alert success\">" + b + "</div>");
+			$(a).after("<div class=\"success\">" + b + "</div>");
 		}
 		$("#submit_pass_view").click(function () {
 			var ajax_data = {
@@ -126,7 +126,7 @@
 						alert("您输入的临时密码错误，请重新获取!!!\n(区分大小写!)(区分大小写!)(区分大小写!)");
 					} else {
 						if (c == "ERR 507") {
-							alert("系统错误！！请检查请检查TPID！");
+							alert("系统错误！！请检查使用的TPID！");
 							window.location = "https://www.projectoms.com/";
 						} else if (c !== "ERR 002") {
 							show_hide_content(".tp-row", c);
