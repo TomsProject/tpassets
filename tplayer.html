@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html class="js cssanimations">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+	<link rel="icon" type="image/Icon" href="https://assets.projectoms.com/image/Icon/big/icon-1024.webp">
+	<meta http-equiv="Cache-Control" content="no-siteapp">
+	<title>TPlayer 在线视频播放器 | Toms Project</title>
+	<style>
+		#tplayer {
+			margin-bottom: .3em;
+			height: auto;
+			width: 100%;
+			min-height: 100px;
+			width: 90%;
+			height: auto;
+			margin-left: auto;
+			margin-right: auto;
+			display: none;
+		}
+
+		#tp-btn {
+			width: 300px;
+			margin-top: 2%;
+			font-size: 30px;
+			font-weight: bold;
+		}
+
+		#tp-alert {
+			margin: 25px;
+			box-shadow: 0 0.7em 1.6em 0 rgba(0,0,0,.3);
+			background-color: aqua;
+			border-radius: 5px;
+			margin-left: 20%;
+			padding: 5px;
+			width: 60%;
+		}
+
+		.tp-row:after {
+			content: "";
+			clear: both;
+			display: table;
+		}
+
+		#pass_view {
+			width:70%;
+			padding: 9px;
+			border: 2px solid #dadada;
+			border-radius: 3em;
+			font-size: 20px;
+		}
+
+		#submit_pass_view {
+			background: #04d654;
+			color: #fff;
+		}
+	</style>
+	<link rel="stylesheet" href="https://assets.projectoms.com/css/waves.min.css">
+	<link rel="stylesheet" type="text/css" href="https://assets.projectoms.com/css/shaka-player-controls.css">
+	<script src="https://assets.projectoms.com/JavaScript/waves.min.js"></script>
+	<script src="https://assets.projectoms.com/JavaScript/shaka-player.ui.js"></script>
+	<script src="https://assets.projectoms.com/JavaScript/tplayer.js"></script>
+	<script src="https://assets.projectoms.com/JavaScript/jquery-3.5.0.min.js"></script>
+	<script defer src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js"></script>
+</head>
+<body>
+	<div id="tplayer" data-shaka-player-container data-shaka-player-cast-receiver-id="7B25EC44">
+		<video autoplay data-shaka-player id="video"
+			poster="https://assets.projectoms.com/image/Icon/big/tp-player.webp" style="width:100%;height:100%"></video>
+	</div>
+	<div style="text-align: center;">
+		<div class="tp-row">
+			<div class="tp-col-md-4">
+				<img src="https://assets.projectoms.com/image/QR/qrcode-open-hao.webp" width="300" height="300">
+			</div>
+			<div class="tp-col-md-8">
+				<div class="hide_content_info" style="margin:10px 0">
+					<div class="tp-alert primary">
+						为了防止CDN加速流量爆表，如需观看视频，您需要扫码关注微信公众号并回复【临时密码】获取临时密码(区分大小写!)，临时密码在15分钟内有效(区分大小写!)
+					</div>
+					<input type="text" id="pass_view" placeholder="输入临时密码并点击观看(区分大小写!)">
+					<br>
+					<input id="submit_pass_view" class="tp-btn success waves-effect waves-button waves-float md-trigger" type="button" value="观看" onclick="reminder1()">
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		function reminder1() {
+			alert("已经为你提交！由于访问量巨大，请耐心等待服务器响应!!!");
+		}
+
+		function GetQueryValue(queryName) {
+			var query = decodeURI(window.location.search.substring(1));
+			var vars = query.split("&");
+			for (var i = 0; i < vars.length; i++) {
+				var pair = vars[i].split("=");
+				if (pair[0] == queryName) {
+					return pair[1];
+				}
+			}
+			return null;
+		}
+
+		function show_hide_content(a, b) {
+			$(a).hide();
+			var tht = document.getElementById("tplayer");
+			tht.style.display = 'block';
+			$(a).after("<div class=\"tp-alert success\">" + b + "</div>");
+		}
+		$("#submit_pass_view").click(function () {
+			var ajax_data = {
+				product: queryVal = GetQueryValue('watch'),
+				logincode: $("#pass_view").val()
+			};
+			if ($("#thanktalk").val() == "" || $("#pass_view").val() == "") {
+				alert("您输入的临时密码错误，请重新获取!!!\n(区分大小写!)(区分大小写!)(区分大小写!)");
+			} else {
+				$.post("https://api.projectoms.com/tpcode/show-hide-div", ajax_data, function (c) {
+					c = $.trim(c);
+					if (c == "ERR 000") {
+						alert("您输入的临时密码错误，请重新获取!!!\n(区分大小写!)(区分大小写!)(区分大小写!)");
+					} else {
+						if (c !== "ERR 002") {
+							show_hide_content(".tp-row", c);
+						} else {
+							alert("您输入的临时密码错误，请重新获取!!!\n(区分大小写!)(区分大小写!)(区分大小写!)");
+						}
+					}
+				});
+			}
+		});
+	</script>
+</body>
+</html>
