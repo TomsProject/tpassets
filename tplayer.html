@@ -20,13 +20,6 @@
 			display: none;
 		}
 
-		.tp-btn {
-			width: 300px;
-			margin-top: 2%;
-			font-size: 30px;
-			font-weight: bold;
-		}
-
 		.tp-alert {
 			margin: 25px;
 			box-shadow: 0 0.7em 1.6em 0 rgba(0,0,0,.3);
@@ -54,6 +47,10 @@
 		#submit_pass_view {
 			background: #04d654;
 			color: #fff;
+			width: 300px;
+			margin-top: 2%;
+			font-size: 30px;
+			font-weight: bold;
 		}
 	</style>
 	<link rel="stylesheet" href="https://assets.projectoms.com/css/waves.min.css">
@@ -103,7 +100,7 @@
 			return null;
 		}
 
-		if(GetQueryValue('watch') == "" || GetQueryValue('watch') == NULL)
+		if(GetQueryValue('watch') == "" || GetQueryValue('watch') == null)
 		{
 			alert("错误！未提供视频TPID！！！");
 			window.location = "https://www.projectoms.com/";
@@ -128,7 +125,10 @@
 					if (c == "ERR 000") {
 						alert("您输入的临时密码错误，请重新获取!!!\n(区分大小写!)(区分大小写!)(区分大小写!)");
 					} else {
-						if (c !== "ERR 002") {
+						if (c == "ERR 507") {
+							alert("系统错误！！请检查请检查TPID！");
+							window.location = "https://www.projectoms.com/";
+						} else if (c !== "ERR 002") {
 							show_hide_content(".tp-row", c);
 						} else {
 							alert("您输入的临时密码错误，请重新获取!!!\n(区分大小写!)(区分大小写!)(区分大小写!)");
