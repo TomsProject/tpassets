@@ -103,6 +103,12 @@
 			return null;
 		}
 
+		if(GetQueryValue('watch') == "" || GetQueryValue('watch') == NULL)
+		{
+			alert("错误！未提供视频TPID！！！");
+			window.location = "https://www.projectoms.com/";
+		}
+
 		function show_hide_content(a, b) {
 			$(a).hide();
 			var tht = document.getElementById("tplayer");
@@ -111,7 +117,7 @@
 		}
 		$("#submit_pass_view").click(function () {
 			var ajax_data = {
-				product: queryVal = GetQueryValue('watch'),
+				product: GetQueryValue('watch'),
 				logincode: $("#pass_view").val()
 			};
 			if ($("#thanktalk").val() == "" || $("#pass_view").val() == "") {
