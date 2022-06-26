@@ -20,12 +20,12 @@ As we all konw, China's GFW make global internet very slow, so we need a local c
 
 After trying Alibaba, Tencent, Qiniu, Upyun and Baidu AI Cloud, we found Tencent's CDN is suitable for us, Althouth it dosn't support anycast, but it is useful enough.
 
-Tencent's CDN dosn't support TLS 1.3 & Brotli Compression now, and this will be sloved as fast as possible.
+Tencent's CDN support TLS 1.3 & Brotli Compression and even QUIC now!
 
 ## For visiters in Russia & CIS
 For some reason, AWS & Cloudflare didn't have many POPs in Russia & CIS, which made fetch assets very slow, so we need a local content delivery network provider to provide a faster internet service for users in Russia & CIS.
 
-As far as we know, G Core Labs' CDN is best in Russia & CIS, it supports IPv6, TLS 1.3, which is much better than Tencent.
-G Core Labs' CDN dosn't support Brotli Compression now, and this will be sloved in a decade.....
+As far as we know, G Core Labs' CDN is best in Russia & CIS, it supports IPv6, TLS 1.3.
+G Core Labs' CDN dosn't support Brotli Compression & QUIC now, and this will be sloved in a decade.....
 
 Toms Project, 2022
