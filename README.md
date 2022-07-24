@@ -1,4 +1,4 @@
-# https://assets.projectoms.com/
+# TPAssets (https://assets.projectoms.com/)
 Hello! This repository is used to store some static resources from TomsProject (Because he has no money to buy cloud storge & fast CDN.)
 
 But only GitHub's storage is not enough, we need a fast, stable and safe content delivery network to deliver this static files to users all around the world. And that's where the Vercel comes in.
