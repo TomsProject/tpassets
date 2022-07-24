@@ -18,9 +18,9 @@ That's all about this repository and I hope you'll enjoy it!
 
 As we all konw, China's GFW make global internet very slow, so we need a local content delivery network provider to provide a faster internet service for users in China.
 
-After trying Alibaba, Tencent, Qiniu, Upyun and Baidu AI Cloud, we found Tencent's CDN is suitable for us, Althouth it dosn't support anycast, but it is useful enough.
+After trying Alibaba, Tencent, Qiniu, Upyun, Huawei Cloud, UCloud, Kingsoft Cloud and Baidu AI Cloud, we found Kingsoft's CDN is suitable for us, Althouth it dosn't support anycast, but it is useful enough.
 
-Tencent's CDN support TLS 1.3 & Brotli Compression and even QUIC now!
+Kingsoft's CDN support TLS 1.3 & Brotli Compression and even QUIC now!
 
 ## For visiters in Russia & CIS
 For some reason, AWS & Cloudflare didn't have many POPs in Russia & CIS, which made fetch assets very slow, so we need a local content delivery network provider to provide a faster internet service for users in Russia & CIS.
