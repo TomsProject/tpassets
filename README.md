@@ -27,7 +27,7 @@ For some reason, AWS & Cloudflare didn't have many POPs in Russia & CIS, which m
 
 As far as we know, G Core Labs' CDN is best in Russia & CIS, it supports IPv6, TLS 1.3.
 
-G Core Labs' CDN do support Brotli Compression now, but we need to buy a very expensive origin shieid, so we WON'T FELL INTO THIS TRAP(lol)
+G Core Labs' CDN do support Brotli Compression now, but we need to buy a very expensive origin shield, so we WON'T FELL INTO THIS TRAP(lol)
 
 
 Toms Project, 2022
