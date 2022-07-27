@@ -26,6 +26,7 @@ Kingsoft's CDN support TLS 1.3 & Brotli Compression and even QUIC now!
 For some reason, AWS & Cloudflare didn't have many POPs in Russia & CIS, which made fetch assets very slow, so we need a local content delivery network provider to provide a faster internet service for users in Russia & CIS.
 
 As far as we know, G Core Labs' CDN is best in Russia & CIS, it supports IPv6, TLS 1.3.
+
 G Core Labs' CDN do support Brotli Compression now, but we need to buy a very expensive origin shieid, so we WON'T FELL INTO THIS TRAP(lol)
 
 
