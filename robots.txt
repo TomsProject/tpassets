@@ -3,3 +3,5 @@ Disallow: /
 Allow: /index.html
 Allow: /jump.html
 Allow: /404.html
+Allow: /tplayer.html
+Allow: /README.md
