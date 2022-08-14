@@ -10662,4 +10662,3 @@ const modules = [Virtual, Keyboard, Mousewheel, Navigation, Pagination, Scrollba
 Swiper.use(modules);
 
 export { Swiper, Swiper as default };
-//# sourceMappingURL=swiper-bundle.esm.browser.js.map
