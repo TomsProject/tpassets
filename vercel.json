@@ -12,7 +12,7 @@
     { 
       "src": "/(.*)", 
       "status": 404, 
-      "dest": "/html/error/404.html" 
+      "dest": "/404.html" 
     }
   ]
 }
