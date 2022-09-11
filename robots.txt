@@ -1,6 +1,2 @@
 User-agent: *
-Disallow: /
-Allow: /index.html
-Allow: /404.html
-Allow: /html/tplayer.html
-Allow: /README.md
+Allow: /
