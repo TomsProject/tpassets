@@ -23,11 +23,12 @@ After trying Alibaba, Tencent, Qiniu, Upyun, Huawei Cloud, UCloud, Kingsoft Clou
 Kingsoft's CDN support TLS 1.3 & Brotli Compression and even QUIC now!
 
 ## For visiters in Russia & CIS
+* For russia invades Ukraine: We don't believe all russia people really supports putin, the invade is caused by the kremlin, not the people. So sanction on russian made no efforts, it's the putin and his stupid supporters who should pay for starting a war, that's way I still my my service available in russia.
 For some reason, AWS & Cloudflare didn't have many POPs in Russia & CIS, which made fetch assets very slow, so we need a local content delivery network provider to provide a faster internet service for users in Russia & CIS.
 
-As far as we know, G Core Labs' CDN is best in Russia & CIS, it supports IPv6, TLS 1.3.
+As far as we know, G Core's CDN is best in Russia & CIS, it supports IPv6, TLS 1.3.
 
-G Core Labs' CDN do support Brotli Compression now, but we need to buy a very expensive origin shield, so we WON'T FELL INTO THIS TRAP(lol)
-
+G Core's CDN doesn't support HTTP3/QUIC now, but this is going to be solved soon.
+G Core's CDN do support Brotli Compression now, but we need to buy a very expensive origin shield, so we WON'T FELL INTO THIS TRAP(lol)
 
 Toms Project, 2022
