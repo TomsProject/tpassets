@@ -23,7 +23,7 @@ After trying Alibaba, Tencent, Qiniu, Upyun, Huawei Cloud, UCloud, Kingsoft Clou
 Kingsoft's CDN support TLS 1.3 & Brotli Compression and even QUIC now!
 
 ## For visiters in Russia & CIS
-* For russia invades Ukraine: We don't believe all russia people really supports putin, the invade is caused by the kremlin, not the people. So sanction on russian people made no efforts, it's the putin and his stupid supporters who should pay for starting a war. that's way I still let my service available in russia.
+* For russia invades Ukraine: We don't believe all russia people really supports putin, the invade is caused by the kremlin, not the people. So sanction on russian people made no efforts, it's the putin and his stupid supporters who should pay for starting a war, that's the reason way I still let my service available in russia.
 
 For some reason, AWS & Cloudflare didn't have many POPs in Russia & CIS, which made fetch assets very slow, so we need a local content delivery network provider to provide a faster internet service for users in Russia & CIS.
 
