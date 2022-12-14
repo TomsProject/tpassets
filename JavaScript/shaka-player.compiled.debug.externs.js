@@ -20,9 +20,13 @@ shaka.ads = {};
 /** @const */
 shaka.cast = {};
 /** @const */
+shaka.config = {};
+/** @const */
 shaka.dash = {};
 /** @const */
 shaka.hls = {};
+/** @const */
+shaka.lcevc = {};
 /** @const */
 shaka.media = {};
 /** @const */
@@ -61,7 +65,6 @@ shaka.text.Cue.prototype.direction;
 shaka.text.Cue.prototype.endTime;
 /**
      * @override
-     * @type {string}
      */
 shaka.text.Cue.prototype.payload;
 /**
@@ -386,6 +389,7 @@ shaka.util.BufferUtils = class {
    * @param {?BufferSource} arr1
    * @param {?BufferSource} arr2
    * @return {boolean}
+   * @suppress {strictMissingProperties}
    */
   static equal(arr1, arr2) {}
   /**
@@ -430,29 +434,6 @@ shaka.util.IDestroyable = class {
    * @return {!Promise}
    */
   destroy() {}
-};
-/**
- */
-shaka.dependencies = class {
-  /**
-   * Registers a new dependency.
-   * @param {shaka.dependencies.Allowed} key which is used for retrieving a
-   *   dependency
-   * @param {?} dep a dependency
-   */
-  static add(key, dep) {}
-  /**
-   * Check if we have a dependency for the key.
-   * @param {shaka.dependencies.Allowed} key key
-   * @return {boolean}
-   */
-  static has(key) {}
-};
-/**
- * @enum {string}
- */
-shaka.dependencies.Allowed = {
-  muxjs: 'muxjs'
 };
 /**
  * @summary
@@ -552,6 +533,8 @@ shaka.util.Error.Code = {
   'TEXT_ONLY_WEBVTT_SRC_EQUALS': 2013,
   'MISSING_TEXT_PLUGIN': 2014,
   'CHAPTERS_TRACK_FAILED': 2015,
+  'CANNOT_ADD_EXTERNAL_THUMBNAILS_TO_SRC_EQUALS': 2016,
+  'UNSUPPORTED_EXTERNAL_THUMBNAILS_URI': 2017,
   'BUFFER_READ_OUT_OF_BOUNDS': 3000,
   'JS_INTEGER_OVERFLOW': 3001,
   'EBML_OVERFLOW': 3002,
@@ -597,13 +580,16 @@ shaka.util.Error.Code = {
   'DASH_XLINK_DEPTH_LIMIT': 4028,
   'CONTENT_UNSUPPORTED_BY_BROWSER': 4032,
   'CANNOT_ADD_EXTERNAL_TEXT_TO_LIVE_STREAM': 4033,
-  'HLS_AES_128_ENCRYPTION_NOT_SUPPORTED': 4034,
-  'HLS_INTERNAL_SKIP_STREAM': 4035,
   'NO_VARIANTS': 4036,
   'PERIOD_FLATTENING_FAILED': 4037,
   'INCONSISTENT_DRM_ACROSS_PERIODS': 4038,
   'HLS_VARIABLE_NOT_FOUND': 4039,
   'HLS_MSE_ENCRYPTED_MP2T_NOT_SUPPORTED': 4040,
+  'HLS_MSE_ENCRYPTED_LEGACY_APPLE_MEDIA_KEYS_NOT_SUPPORTED': 4041,
+  'NO_WEB_CRYPTO_API': 4042,
+  'HLS_AES_128_INVALID_IV_LENGTH': 4043,
+  'HLS_AES_128_INVALID_KEY_LENGTH': 4044,
+  'CANNOT_ADD_EXTERNAL_THUMBNAILS_TO_LIVE_STREAM': 4045,
   'STREAMING_ENGINE_STARTUP_INVALID_STATE': 5006,
   'NO_RECOGNIZED_KEY_SYSTEMS': 6000,
   'REQUESTED_KEY_SYSTEM_CONFIG_UNAVAILABLE': 6001,
@@ -647,6 +633,7 @@ shaka.util.Error.Code = {
   'STORAGE_LIMIT_REACHED': 9014,
   'DOWNLOAD_SIZE_CALLBACK_ERROR': 9015,
   'MODIFY_OPERATION_NOT_SUPPORTED': 9016,
+  'INDEXED_DB_INIT_TIMED_OUT': 9017,
   'CS_IMA_SDK_MISSING': 10000,
   'CS_AD_MANAGER_NOT_INITIALIZED': 10001,
   'SS_IMA_SDK_MISSING': 10002,
@@ -783,6 +770,29 @@ shaka.util.Uint8ArrayUtils = class {
    * @return {!Uint8Array}
    */
   static concat(...varArgs) {}
+};
+/**
+ */
+shaka.dependencies = class {
+  /**
+   * Registers a new dependency.
+   * @param {shaka.dependencies.Allowed} key which is used for retrieving a
+   *   dependency
+   * @param {?} dep a dependency
+   */
+  static add(key, dep) {}
+  /**
+   * Check if we have a dependency for the key.
+   * @param {shaka.dependencies.Allowed} key key
+   * @return {boolean}
+   */
+  static has(key) {}
+};
+/**
+ * @enum {string}
+ */
+shaka.dependencies.Allowed = {
+  muxjs: 'muxjs'
 };
 /**
  * @summary A set of utility functions for dealing with MIME types.
@@ -1026,7 +1036,20 @@ shaka.abr.SimpleAbrManager = class {
   /**
    * @override
    */
+  setMediaElement(mediaElement) {}
+  /**
+   * @override
+   */
   configure(config) {}
+};
+/**
+ * @enum {number}
+ */
+shaka.config.AutoShowText = {
+  'NEVER': 0,
+  'ALWAYS': 1,
+  'IF_PREFERRED_TEXT_LANGUAGE': 2,
+  'IF_SUBTITLES_MAY_BE_NEEDED': 3
 };
 /**
  * A utility to wrap abortable operations.  Note that these are not cancelable.
@@ -1333,7 +1356,8 @@ shaka.net.NetworkingEngine.RequestType = {
   'LICENSE': 2,
   'APP': 3,
   'TIMING': 4,
-  'SERVER_CERTIFICATE': 5
+  'SERVER_CERTIFICATE': 5,
+  'KEY': 6
 };
 /**
  * Priority level for network scheme plugins.
@@ -1420,30 +1444,6 @@ shaka.util.EventManager = class {
  * @typedef {function(!Event)}
  */
 shaka.util.EventManager.ListenerType;
-/**
- * @summary An interface to register manifest parsers.
- */
-shaka.media.ManifestParser = class {
-  /**
-   * Registers a manifest parser by file extension.
-   * @param {string} extension The file extension of the manifest.
-   * @param {shaka.extern.ManifestParser.Factory} parserFactory The factory
-   *   used to create parser instances.
-   */
-  static registerParserByExtension(extension, parserFactory) {}
-  /**
-   * Registers a manifest parser by MIME type.
-   * @param {string} mimeType The MIME type of the manifest.
-   * @param {shaka.extern.ManifestParser.Factory} parserFactory The factory
-   *   used to create parser instances.
-   */
-  static registerParserByMime(mimeType, parserFactory) {}
-  /**
-   * Unregisters a manifest parser by MIME type.
-   * @param {string} mimeType The MIME type of the manifest.
-   */
-  static unregisterParserByMime(mimeType) {}
-};
 /**
   * @summary DataViewReader abstracts a DataView object.
   */
@@ -1589,6 +1589,14 @@ shaka.util.Mp4Parser = class {
    */
   static sampleDescription(box) {}
   /**
+   * A callback that tells the Mp4 parser to treat the body of a box as a visual
+   * sample entry.  A visual sample entry has some fixed-sized fields
+   * describing the video codec parameters, followed by an arbitrary number of
+   * appended children.  Each child is a box.
+   * @param {!shaka.extern.ParsedBox} box
+   */
+  static visualSampleEntry(box) {}
+  /**
    * Create a callback that tells the Mp4 parser to treat the body of a box as a
    * binary blob and to parse the body's contents using the provided callback.
    * @param {function(!Uint8Array)} callback
@@ -1615,6 +1623,30 @@ shaka.util.Mp4Parser = class {
  */
 shaka.util.Mp4Parser.CallbackType;
 /**
+ * @summary An interface to register manifest parsers.
+ */
+shaka.media.ManifestParser = class {
+  /**
+   * Registers a manifest parser by file extension.
+   * @param {string} extension The file extension of the manifest.
+   * @param {shaka.extern.ManifestParser.Factory} parserFactory The factory
+   *   used to create parser instances.
+   */
+  static registerParserByExtension(extension, parserFactory) {}
+  /**
+   * Registers a manifest parser by MIME type.
+   * @param {string} mimeType The MIME type of the manifest.
+   * @param {shaka.extern.ManifestParser.Factory} parserFactory The factory
+   *   used to create parser instances.
+   */
+  static registerParserByMime(mimeType, parserFactory) {}
+  /**
+   * Unregisters a manifest parser by MIME type.
+   * @param {string} mimeType The MIME type of the manifest.
+   */
+  static unregisterParserByMime(mimeType) {}
+};
+/**
  * Creates an InitSegmentReference, which provides the location to an
  * initialization segment.
  */
@@ -1629,8 +1661,9 @@ shaka.media.InitSegmentReference = class {
    *   segment extends to the end of the resource.
    * @param {null|shaka.extern.MediaQualityInfo=} mediaQuality Information about
    *   the quality of the media associated with this init segment.
+   * @param {number=} timescale
    */
-  constructor(uris, startByte, endByte, mediaQuality) {}
+  constructor(uris, startByte, endByte, mediaQuality, timescale) {}
   /**
    * Returns the offset from the start of the resource to the
    * start of the segment.
@@ -1702,8 +1735,10 @@ shaka.media.SegmentReference = class {
    * @param {shaka.media.SegmentReference.Status=} status
    *  The segment status is used to indicate that a segment does not exist or is
    *  not available.
+   * @param {?shaka.extern.HlsAes128Key=} hlsAes128Key
+   *  The segment's AES-128-CBC full segment encryption key and iv.
    */
-  constructor(startTime, endTime, uris, startByte, endByte, initSegmentReference, timestampOffset, appendWindowStart, appendWindowEnd, partialReferences, tilesLayout, tileDuration, syncTime, status) {}
+  constructor(startTime, endTime, uris, startByte, endByte, initSegmentReference, timestampOffset, appendWindowStart, appendWindowEnd, partialReferences, tilesLayout, tileDuration, syncTime, status, hlsAes128Key) {}
   /**
    * Creates and returns the URIs of the resource containing the segment.
    * @return {!Array.<string>}
@@ -1752,6 +1787,16 @@ shaka.media.SegmentReference = class {
    * Mark the reference as unavailable.
    */
   markAsUnavailable() {}
+  /**
+   * Set the segment's thumbnail sprite.
+   * @param {shaka.media.SegmentReference.ThumbnailSprite} thumbnailSprite
+   */
+  setThumbnailSprite(thumbnailSprite) {}
+  /**
+   * Returns the segment's thumbnail sprite.
+   * @return {?shaka.media.SegmentReference.ThumbnailSprite}
+   */
+  getThumbnailSprite() {}
 };
 /**
  * Rather than using booleans to communicate what the state of the reference,
@@ -1762,6 +1807,64 @@ shaka.media.SegmentReference.Status = {
   AVAILABLE: 0,
   UNAVAILABLE: 1,
   MISSING: 2
+};
+/**
+ * @typedef {{
+ *   height: number,
+ *   positionX: number,
+ *   positionY: number,
+ *   width: number
+ * }}
+ * @property {number} height
+ *    The thumbnail height in px.
+ * @property {number} positionX
+ *    The thumbnail left position in px.
+ * @property {number} positionY
+ *    The thumbnail top position in px.
+ * @property {number} width
+ *    The thumbnail width in px.
+ */
+shaka.media.SegmentReference.ThumbnailSprite;
+/**
+ * @summary A set of Id3Utils utility functions.
+ */
+shaka.util.Id3Utils = class {
+  /**
+   * Returns an array of ID3 frames found in all the ID3 tags in the id3Data
+   * @param {Uint8Array} id3Data - The ID3 data containing one or more ID3 tags
+   * @return {!Array.<shaka.extern.MetadataFrame>}
+   */
+  static getID3Frames(id3Data) {}
+};
+/**
+ * @see https://en.wikipedia.org/wiki/MPEG_transport_stream
+ */
+shaka.util.TsParser = class {
+  /** */
+  constructor() {}
+};
+/**
+ * @summary
+ *  lcevcDil - (MPEG-5 Part 2 LCEVC - Decoder Integration Layer) provides
+ *  all the operations related to the enhancement and rendering
+ *  of LCEVC enabled streams and on to a canvas.
+ * @implements {shaka.util.IReleasable}
+ */
+shaka.lcevc.Dil = class {
+  /**
+   * @param {HTMLVideoElement} media The video element that will be attached to
+   * LCEVC Dil for input.
+   * @param {HTMLCanvasElement} canvas The canvas element that will be attached
+   * to LCEVC Dil to render the enhanced frames.
+   * @param {shaka.extern.LcevcConfiguration} dilConfig The LCEVC DIL
+   * config object to initialize the LCEVC DIL.
+   */
+  constructor(media, canvas, dilConfig) {}
+  /**
+   * Close LCEVC Dil.
+   * @override
+   */
+  release() {}
 };
 /**
  * PresentationTimeline.
@@ -1787,6 +1890,12 @@ shaka.media.PresentationTimeline = class {
    * @return {number} The presentation's max segment duration in seconds.
    */
   getMaxSegmentDuration() {}
+  /**
+   * Sets the presentation's start time.
+   * @param {number} presentationStartTime The wall-clock time, in seconds,
+   *   when the presentation started or will start. Only required for live.
+   */
+  setPresentationStartTime(presentationStartTime) {}
   /**
    * Sets the presentation's duration.
    * @param {number} duration The presentation's duration in seconds.
@@ -1828,10 +1937,10 @@ shaka.media.PresentationTimeline = class {
    */
   getDelay() {}
   /**
-   * Gives PresentationTimeline a Stream's segments so it can size and position
+   * Gives PresentationTimeline an array of segments so it can size and position
    * the segment availability window, and account for missing segment
-   * information.  This function should be called once for each Stream (no more,
-   * no less).
+   * information.  These segments do not necessarily need to all be from the
+   * same stream.
    * @param {!Array.<!shaka.media.SegmentReference>} references
    */
   notifySegments(references) {}
@@ -2051,6 +2160,10 @@ shaka.media.SegmentIterator = class {
    */
   constructor(segmentIndex, index, partialSegmentIndex) {}
   /**
+   * @return {number}
+   */
+  currentPosition() {}
+  /**
    * @return {shaka.media.SegmentReference}
    */
   current() {}
@@ -2246,6 +2359,85 @@ shaka.util.ConfigUtils = class {
   static convertToConfigObject(fieldName, value) {}
 };
 /**
+ * @summary A set of FairPlay utility functions.
+ */
+shaka.util.FairPlayUtils = class {
+  /**
+   * Check if FairPlay is supported.
+   * @return {!Promise.<boolean>}
+   */
+  static isFairPlaySupported() {}
+  /**
+   * Using the default method, extract a content ID from the init data.  This is
+   * based on the FairPlay example documentation.
+   * @param {!BufferSource} initData
+   * @return {string}
+   */
+  static defaultGetContentId(initData) {}
+  /**
+   * Transforms the init data buffer using the given data.  The format is:
+   * <pre>
+   * [4 bytes] initDataSize
+   * [initDataSize bytes] initData
+   * [4 bytes] contentIdSize
+   * [contentIdSize bytes] contentId
+   * [4 bytes] certSize
+   * [certSize bytes] cert
+   * </pre>
+   * @param {!BufferSource} initData
+   * @param {!BufferSource|string} contentId
+   * @param {?BufferSource} cert  The server certificate; this will throw if not
+   *   provided.
+   * @return {!Uint8Array}
+   */
+  static initDataTransform(initData, contentId, cert) {}
+  /**
+   * Verimatrix initDataTransform configuration.
+   * @param {!Uint8Array} initData
+   * @param {string} initDataType
+   * @param {?shaka.extern.DrmInfo} drmInfo
+   */
+  static verimatrixInitDataTransform(initData, initDataType, drmInfo) {}
+  /**
+   * EZDRM initDataTransform configuration.
+   * @param {!Uint8Array} initData
+   * @param {string} initDataType
+   * @param {?shaka.extern.DrmInfo} drmInfo
+   */
+  static ezdrmInitDataTransform(initData, initDataType, drmInfo) {}
+  /**
+   * Conax initDataTransform configuration.
+   * @param {!Uint8Array} initData
+   * @param {string} initDataType
+   * @param {?shaka.extern.DrmInfo} drmInfo
+   */
+  static conaxInitDataTransform(initData, initDataType, drmInfo) {}
+  /**
+   * Verimatrix FairPlay request.
+   * @param {shaka.net.NetworkingEngine.RequestType} type
+   * @param {shaka.extern.Request} request
+   */
+  static verimatrixFairPlayRequest(type, request) {}
+  /**
+   * EZDRM FairPlay request.
+   * @param {shaka.net.NetworkingEngine.RequestType} type
+   * @param {shaka.extern.Request} request
+   */
+  static ezdrmFairPlayRequest(type, request) {}
+  /**
+   * Conax FairPlay request.
+   * @param {shaka.net.NetworkingEngine.RequestType} type
+   * @param {shaka.extern.Request} request
+   */
+  static conaxFairPlayRequest(type, request) {}
+  /**
+   * Common FairPlay response transform for some DRMs providers.
+   * @param {shaka.net.NetworkingEngine.RequestType} type
+   * @param {shaka.extern.Response} response
+   */
+  static commonFairPlayResponse(type, response) {}
+};
+/**
  * @final
  */
 shaka.util.PlayerConfiguration = class {
@@ -2330,6 +2522,12 @@ shaka.Player = class extends shaka.util.FakeEventTarget {
    * @return {!Promise}
    */
   attach(mediaElement, initializeMediaSource) {}
+  /**
+   * Calling <code>attachCanvas</code> will tell the player to set canvas
+   * element for LCEVC decoding.
+   * @param {HTMLCanvasElement} canvas
+   */
+  attachCanvas(canvas) {}
   /**
    * Tell the player to stop using its current media element. If the player is:
    * <ul>
@@ -2644,12 +2842,13 @@ shaka.Player = class extends shaka.util.FakeEventTarget {
   getTextLanguages() {}
   /**
    * Sets the current audio language and current variant role to the selected
-   * language and role, and chooses a new variant if need be. If the player has
-   * not loaded any content, this will be a no-op.
+   * language, role and channel count, and chooses a new variant if need be.
+   * If the player has not loaded any content, this will be a no-op.
    * @param {string} language
    * @param {string=} role
+   * @param {number=} channelsCount
    */
-  selectAudioLanguage(language, role) {}
+  selectAudioLanguage(language, role, channelsCount) {}
   /**
    * Sets the current text language and current text role to the selected
    * language and role, and chooses a new variant if need be. If the player has
@@ -2731,6 +2930,17 @@ shaka.Player = class extends shaka.util.FakeEventTarget {
    */
   addTextTrackAsync(uri, language, kind, mimeType, codec, label, forced) {}
   /**
+   * Adds the given thumbnails track to the loaded manifest.
+   * <code>load()</code> must resolve before calling.  The presentation must
+   * have a duration.
+   * This returns the created track, which can immediately be used by the
+   * application.
+   * @param {string} uri
+   * @param {string=} mimeType
+   * @return {!Promise.<shaka.extern.Track>}
+   */
+  addThumbnailsTrack(uri, mimeType) {}
+  /**
    * Adds the given chapters track to the loaded manifest.  <code>load()</code>
    * must resolve before calling.  The presentation must have a duration.
    * This returns the created track.
@@ -2758,9 +2968,10 @@ shaka.Player = class extends shaka.util.FakeEventTarget {
    * <p>
    * If the player has loaded content, and streaming seen an error, but the
    * could not resume streaming, this will return <code>false</code>.
+   * @param {number=} retryDelaySeconds
    * @return {boolean}
    */
-  retryStreaming() {}
+  retryStreaming(retryDelaySeconds) {}
   /**
    * Get the manifest that the player has loaded. If the player has not loaded
    * any content, this will return <code>null</code>.
@@ -2890,6 +3101,14 @@ shaka.ads.ClientSideAd = class {
   /**
    * @override
    */
+  getTitle() {}
+  /**
+   * @override
+   */
+  getDescription() {}
+  /**
+   * @override
+   */
   release() {}
 };
 /**
@@ -2973,6 +3192,14 @@ shaka.ads.ServerSideAd = class {
    * @override
    */
   getPositionInSequence() {}
+  /**
+   * @override
+   */
+  getTitle() {}
+  /**
+   * @override
+   */
+  getDescription() {}
   /**
    * @override
    */
@@ -3643,6 +3870,20 @@ shaka.polyfill = class {
   static register(polyfill, priority) {}
 };
 /**
+ * @summary A polyfill for systems that do not implement AbortController.
+ * This is used both with the fetch API for HTTP requests and inside the HLS
+ * parser.
+ * @extends AbortController
+ */
+shaka.polyfill.AbortController = class {
+  /**
+   * Install the polyfill if needed.
+   */
+  static install() {}
+  /** */
+  constructor() {}
+};
+/**
  * @summary A polyfill to add support for the ARIAMixin interface mixin, for
  * browsers that do not implement it (e.g. Firefox).
  * Note that IE also does not support ARIAMixin, but this polyfill does not work
@@ -3719,6 +3960,21 @@ shaka.polyfill.Orientation = class {
    * Install the polyfill if needed.
    */
   static install() {}
+};
+/**
+ * @summary A polyfill to implement modern, standardized EME on top of Apple's
+ * prefixed EME in Safari.
+ */
+shaka.polyfill.PatchedMediaKeysApple = class {
+  /**
+   * Installs the polyfill if needed.
+   * @param {boolean=} enableUninstall enables uninstalling the polyfill
+   */
+  static install(enableUninstall) {}
+  /**
+   * Uninstalls the polyfill if needed and enabled.
+   */
+  static uninstall() {}
 };
 /**
  * @summary A polyfill to stub out
@@ -3964,50 +4220,4 @@ shaka.text.SsaTextParser = class {
    * @override
    */
   parseMedia(data, time) {}
-};
-/**
- * @summary A set of FairPlay utility functions.
- */
-shaka.util.FairPlayUtils = class {
-  /**
-   * Check if FairPlay is supported.
-   * @return {!Promise.<boolean>}
-   */
-  static isFairPlaySupported() {}
-  /**
-   * Using the default method, extract a content ID from the init data.  This is
-   * based on the FairPlay example documentation.
-   * @param {!BufferSource} initData
-   * @return {string}
-   */
-  static defaultGetContentId(initData) {}
-  /**
-   * Transforms the init data buffer using the given data.  The format is:
-   * <pre>
-   * [4 bytes] initDataSize
-   * [initDataSize bytes] initData
-   * [4 bytes] contentIdSize
-   * [contentIdSize bytes] contentId
-   * [4 bytes] certSize
-   * [certSize bytes] cert
-   * </pre>
-   * @param {!BufferSource} initData
-   * @param {!BufferSource|string} contentId
-   * @param {?BufferSource} cert  The server certificate; this will throw if not
-   *   provided.
-   * @return {!Uint8Array}
-   */
-  static initDataTransform(initData, contentId, cert) {}
-  /**
-   * SPC FairPlay request.
-   * @param {shaka.net.NetworkingEngine.RequestType} type
-   * @param {shaka.extern.Request} request
-   */
-  static spcFairPlayRequest(type, request) {}
-  /**
-   * Common FairPlay response transform for some DRMs providers.
-   * @param {shaka.net.NetworkingEngine.RequestType} type
-   * @param {shaka.extern.Response} response
-   */
-  static commonFairPlayResponse(type, response) {}
 };
