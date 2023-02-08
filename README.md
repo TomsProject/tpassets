@@ -29,7 +29,7 @@ For some reason, AWS & Cloudflare didn't have many POPs in Russia & CIS, which m
 
 As far as we know, G Core's CDN is best in Russia & CIS, it supports IPv6, TLS 1.3.
 
-G Core's CDN doesn't support HTTP3/QUIC now, but this is going to be solved soon.
+G Core's CDN doesn't support HTTP3/QUIC now(in beta), but this is going to be solved soon.
 G Core's CDN do support Brotli Compression now, but we need to buy a very expensive origin shield, so we WON'T FELL INTO THIS TRAP(lol)
 
-Toms Project, 2022
+Toms Project, 2023
