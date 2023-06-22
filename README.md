@@ -27,7 +27,7 @@ Kingsoft's CDN support TLS 1.3 & Brotli Compression and even QUIC now!
 
 For some reason, AWS & Cloudflare didn't have many POPs in Russia & CIS, which made fetching assets very slow, so we need a local content delivery network provider to provide faster internet service for users in Russia & CIS.
 
-As far as we know, Edgecenter(former Gcore, detail: https://s.tp.je/32K2p)'s CDN is best in Russia & CIS, it supports IPv6, TLS 1.3.
+As far as we know, Edgecenter(former Gcore, detail: https://s.tp.je/32K2p )'s CDN is best in Russia & CIS, it supports IPv6, TLS 1.3.
 
 Edgecenter's CDN doesn't support HTTP3/QUIC now(in beta), but this is going to be solved soon.
 Edgecenter's CDN does support Brotli Compression now, but we need to buy a very expensive origin shield, so we WON'T FELL INTO THIS TRAP(lol)
