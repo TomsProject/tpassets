@@ -20,7 +20,7 @@ As we all know, China's GFW makes the global internet very slow, so we need a lo
 
 After trying Alibaba, Tencent, Qiniu, Upyun, Huawei Cloud, UCloud, Kingsoft Cloud, and Baidu AI Cloud, we found Kingsoft's CDN is suitable for us, although it doesn't support anycast, it is useful enough.
 
-Kingsoft's CDN support TLS 1.3 & Brotli Compression and even QUIC now!
+Kingsoft's CDN supports TLS 1.3 & Brotli Compression and even QUIC now!
 
 ## For visitors in Russia & CIS
 * For Russia invades Ukraine: We don't believe all Russian people really support Putin, the invasion is caused by the Kremlin, not the people. So sanctions on Russian people made no effort, it's Putin and his stupid supporters who should pay for starting a war, that's the reason why I still letting my service available in Russia.
@@ -32,4 +32,4 @@ As far as we know, Edgecenter(former Gcore, detail: https://s.tp.je/32K2p )'s CD
 Edgecenter's CDN doesn't support HTTP3/QUIC now(in beta), but this is going to be solved soon.
 Edgecenter's CDN does support Brotli Compression now, but we need to buy a very expensive origin shield, so we WON'T FELL INTO THIS TRAP(lol)
 
-Toms Project, 2023
+Toms Project, 2024
