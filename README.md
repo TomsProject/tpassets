@@ -1,13 +1,13 @@
 # TPAssets (https://assets.projectoms.com/)
-Hello! This repository is used to store some static resources from TomsProject (Because he has no money to buy cloud storage & fast CDN.)
+Hello! This repository stores some static resources from TomsProject (Because he has no money to buy cloud storage & fast CDN.)
 
 But only GitHub's storage is not enough, we need a fast, stable, and safe content delivery network to deliver these static files to users all around the world. And that's where the Vercel comes in.
 
-Vercel is a serverless service but it also provides a custom content delivery network using AGA (AWS Global Accelerator, An global anycast network based on Amazon infrastructures that is ten times faster than CloudFront.)
+Vercel is a serverless service but it also provides a custom content delivery network using AGA (AWS Global Accelerator, A global anycast network based on Amazon infrastructures that is ten times faster than CloudFront.)
 
 Thanks to Vercel, we can have a better network performance with Vercel AGA.
 
-AGA's one big problem is that it doesn't support IPv6, so we use Cloudflare CDN to solve this.
+AGA's one big problem is that it doesn't support IPv6(AWS Supports it now, however Vercel still does not), so we use Cloudflare CDN to solve this.
 
 That's all about this repository and I hope you'll enjoy it!
 
