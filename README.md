@@ -23,7 +23,7 @@ After trying Alibaba, Tencent, Qiniu, Upyun, Huawei Cloud, UCloud, Kingsoft Clou
 Huawei Cloud's CDN supports TLS 1.3 & Brotli Compression and HTTP3(QUIC).
 
 ## For visitors in Russia & CIS
-* For Russia invades Ukraine: We don't believe all Russian people really support Putin, the invasion is caused by the Kremlin, not the people. So sanctions on Russian people made no effort, it's Putin and his stupid supporters who should pay for starting a war, that's the reason why I still letting my service available in Russia.
+* For Russia invades Ukraine: We don't believe all Russian people really support Putin, the invasion is caused by the Kremlin, not the people. So sanctions on Russian people made no effort, it's Putin and his stupid supporters who should pay for starting a war, that's the reason why I am still letting my service available in Russia.
 
 For some reason, AWS & Cloudflare didn't have many POPs in Russia & CIS area, which made fetching assets very slow, so we need a local content delivery network provider to provide faster internet service for users in Russia & CIS.
 
@@ -32,4 +32,4 @@ As far as we know, Edgecenter(former Gcore, detail: https://s.tp.je/32K2p )'s CD
 Edgecenter's CDN doesn't support HTTP3/QUIC now(in beta), but this is going to be solved soon.
 Edgecenter's CDN does support Brotli Compression now, but we need to buy a very expensive origin shield, so we WON'T FELL INTO THIS TRAP(lol)
 
-Toms Project, 2024
+Toms Project, 2025
