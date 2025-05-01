@@ -1,73 +1,93 @@
 <!DOCTYPE html>
-<html class="pack">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Welcome | TomsProject Assets</title>
-    <style type="text/css">
-        html, body {
-            height: 100%;
-        }
-        body {
-            margin: 0px;
-            display: flex;
-            flex-direction: column;
-        }
-        .nos {
-            text-align: center;
-            color: red;
-            font-size: 60px;
-            width: 80%;
-            margin-left: 11%;
-        }
-        .footer_copyright {
-            background-color: gray;
-            color: white;
-            text-align: center;
-            height: 180px;
-        }
-        .pack {
-            background-color: #FFFFCC;
-        }
-        .csss {
-            font-size: small;
-            color: gray;
-        }
-        .mahp {
-            margin-left: 8px;
-        }
-        .main {
-            flex: 1;
-        }
-    </style>
-    <link rel="icon" type="image/Icon" href="https://assets.projectoms.com/image/Icon/big/icon-1024-round.webp" />
-    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no">
-</head>
-<body>
-    <div class="main">
-        <h1 class="mahp">Welcome to TomsProject Assets!</h1>
-        <h3 class="mahp">We have all Toms Project's important assets here.</h3>
-        <h2 class="mahp">How does this website work?</h2>
-        <p class="mahp">First of all, to get Toms Project's assets, users should get our server's IP address first, so for DNS we choose AliDNS(Unicast, just for mainland China users) + AWS Route 53(Anycast) which is super fast for users all around the world.</p>
-        <p class="mahp">For visiters in mainland China, they'll use Kingsoft Cloud's CDN (Support IPv4 + IPv6) which has more than 500 Unicast POPs in mainland China.</p>
-        <p class="mahp">For visiters in Russia & CIS, they'll use Edgecenter(former Gcore, detail: https://s.tp.je/32K2p)'s CDN (Support IPv4 + IPv6) which has 42 Anycast POPs in Russia & CIS.</p>
-        <p class="mahp">For visiters around the world, they'll use AWS Global Accelerator & Vercel (IPv4 only) which has 96 Anycast POPs worldwide. IPv6 users will hit Cloudflare CDN that include about 220 Anycast POPs worldwide which is fast.</p>
-        <p class="mahp">More info & Architecture diagram, please visit <a href="https://assets.projectoms.com/image/page/tpassets-22-07.webp">Information Graph 2022-07 Version</a></p>
-    </div>
-    <div class="footer_copyright">
-        <p class="pco"> Copyright &copy; 2017 - <span id="footyear"></span>
-            <br>TomsProject (BeiJing) Network Co.,Ltd. All Rights Reserved.<br><em>汤姆的项目网络科技有限公司 版权所有</em>
-        </p>
-        <p>Website Created by Toms Project.</p>
-        <p>京ICP备19007812号-2</p>
-    </div>
-    <script type="text/javascript">
-        //2017-2022 TomsProject (BeiJing) Network Co.,Ltd. All Rights Reserved. v2.0
-        function clock() {
-            var time = new Date();
-            var year = time.getFullYear();
-            document.getElementById("footyear").innerHTML = year;
-        }
-        clock();
-    </script>
-</body>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link rel="icon" href="https://assets.projectoms.com/image/Icon/big/icon-1024-round.webp">
+        <link rel="apple-touch-icon" href="https://assets.projectoms.com/image/Icon/big/icon-1024-round.webp">
+        <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no">
+        <meta name="theme-color" content="#dce8f1">
+        <link rel="stylesheet" href="https://assets.projectoms.com/css/font-misans-zh_CN.css">
+        <title>Welcome | TomsProject Assets</title>
+        <style>
+            html, body {
+                height: 100%;
+            }
+            body {
+                background-color: #dce8f1;
+                margin: 0;
+                font-family: MiSans VF, Arial, sans-serif;
+                display: flex;
+                flex-direction: column;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+            }
+            .content-container {
+                background-color: rgba(255, 255, 255, 0.8);
+                border-radius: 1.6em;
+                box-shadow: 0 3px 9px rgba(0, 0, 0, 0.3);
+                display: inline-block;
+                margin: 2em;
+                padding: 1.5rem 0.8rem 1rem 0.8rem;
+                width: 75%;
+            }
+            @media screen and (max-width: 800px) { 
+                .return-menu {
+                    margin-left: 0;
+                }
+                .content-container {
+                    margin: 2em 0;
+                    border-radius: 0.9em;
+                    width: 90%;
+                }
+            }
+            .footer-a {
+                color: #fff;
+                text-decoration: none;
+            }
+            .footer-a:hover {
+                color: #4c4c4c;
+                text-decoration: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div style="display: flex; justify-content: center;">
+            <article class="content-container">
+                <h1 style="font-size: 2em; margin-block-start: 0;">Welcome to TomsProject Assets!</h1>
+                <h3>We have all Toms Project's important assets here.</h3>
+                <h2>How does this website work?</h2>
+                <p>First of all, to get Toms Project's assets, users should get our server's IP address first, so for DNS we choose AliDNS(Unicast, just for mainland China users) + AWS Route 53(Anycast) which is super fast for users all around the world.</p>
+                <p>For visiters in mainland China, they'll use Kingsoft Cloud's CDN (Support IPv4 + IPv6) which has more than 500 Unicast POPs in mainland China.</p>
+                <p>For visiters in Russia & CIS, they'll use Edgecenter(former Gcore, detail: https://s.tp.je/32K2p)'s CDN (Support IPv4 + IPv6) which has 42 Anycast POPs in Russia & CIS.</p>
+                <p>For visiters around the world, they'll use AWS Global Accelerator & Vercel (IPv4 only) which has 96 Anycast POPs worldwide. IPv6 users will hit Cloudflare CDN that include about 220 Anycast POPs worldwide which is fast.</p>
+                <p>More info & Architecture diagram, please visit <a href="https://assets.projectoms.com/image/page/tpassets-22-07.webp">Information Graph 2022-07 Version</a></p>
+            </article>
+        </div>
+        <footer style="background-color: rgb(128, 128, 128); color: white; height: 14em; font-size: 1.2em; text-align: center; margin-top: auto;">
+            <p style="margin: 0.3rem;">
+                Copyright © 2017 - <span id="footyear"></span><br> TomsProject (BeiJing) Network Co.,Ltd. All Rights Reserved.<br>
+                <em>汤姆的项目网络科技有限公司 版权所有</em>
+            </p>
+            <p>本站由 Toms Project 开发制作</p>
+            <p><a target="_blank" href="https://beian.miit.gov.cn/" class="footer-a">京ICP备19007812号-2</a></p>
+            <a target="_blank" href="https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010802032182" class="footer-a" style="display: inline-block;">
+                <img width="26px" src="https://assets.projectoms.com/image/Icon/big/police-64.png" style="float: left;">
+                <span style="margin: 0px 0px 0px 5px;">京公网安备 11010802032182号</span>
+            </a>
+            <br>
+            <a href="https://projectoms.com/page/terms.html" class="footer-a" style="margin-right: 1.7em;">服务条款</a>
+            <a href="https://status.projectoms.com/" class="footer-a">站点状态</a>
+            <a href="https://projectoms.com/page/privacy.html" class="footer-a" style="margin-left: 1.7em;">隐私政策</a>
+        </footer>
+        <script type="text/javascript">
+            // 2017-2025 TomsProject (BeiJing) Network Co.,Ltd. All Rights Reserved.
+            // Minisized for TP Intro Page v2.0
+            function clock() {
+                var time = new Date();
+                var year = time.getFullYear();
+                document.getElementById("footyear").innerHTML = year;
+            }
+            clock();
+        </script>
+    </body>
 </html>
