@@ -6,9 +6,9 @@
 /**
  * @fileoverview Generated externs.  DO NOT EDIT!
  * @externs
- * @suppress {duplicate} To prevent compiler errors with the
- *   namespace being declared both here and by goog.provide in the
- *   library.
+ * @suppress {constantProperty, duplicate} To prevent compiler
+ *   errors with the namespace being declared both here and by
+ *   goog.provide in the library.
  */
 
 /** @namespace */
@@ -26,6 +26,8 @@ shaka.config = {};
 /** @const */
 shaka.dash = {};
 /** @const */
+shaka.drm = {};
+/** @const */
 shaka.hls = {};
 /** @const */
 shaka.lcevc = {};
@@ -39,6 +41,10 @@ shaka.mss = {};
 shaka.net = {};
 /** @const */
 shaka.offline = {};
+/** @const */
+shaka.offline.indexeddb = {};
+/** @const */
+shaka.queue = {};
 /** @const */
 shaka.text = {};
 /** @const */
@@ -58,7 +64,7 @@ shaka.util.CmcdManager = {};
 shaka.util.FakeEvent = class {
   /**
    * @param {string} type
-   * @param {Map.<string, Object>=} dict
+   * @param {Map<string, Object>=} dict
    */
   constructor(type, dict) {}
 };
@@ -279,7 +285,6 @@ shaka.util.Error.Code = {
   'CANNOT_ADD_EXTERNAL_TEXT_TO_SRC_EQUALS': 2012,
   'TEXT_ONLY_WEBVTT_SRC_EQUALS': 2013,
   'MISSING_TEXT_PLUGIN': 2014,
-  'CHAPTERS_TRACK_FAILED': 2015,
   'UNSUPPORTED_EXTERNAL_THUMBNAILS_URI': 2017,
   'BUFFER_READ_OUT_OF_BOUNDS': 3000,
   'JS_INTEGER_OVERFLOW': 3001,
@@ -304,6 +309,7 @@ shaka.util.Error.Code = {
   'MSS_MISSING_DATA_FOR_TRANSMUXING': 3020,
   'MSS_TRANSMUXING_FAILED': 3022,
   'TRANSMUXING_NO_VIDEO_DATA': 3023,
+  'STREAMING_NOT_ALLOWED': 3024,
   'UNABLE_TO_GUESS_MANIFEST_TYPE': 4000,
   'DASH_INVALID_XML': 4001,
   'DASH_NO_SEGMENT_INFO': 4002,
@@ -344,6 +350,9 @@ shaka.util.Error.Code = {
   'DASH_CONFLICTING_AES_128': 4050,
   'DASH_UNSUPPORTED_AES_128': 4051,
   'DASH_INVALID_PATCH': 4052,
+  'HLS_EMPTY_MEDIA_PLAYLIST': 4053,
+  'DASH_MSE_ENCRYPTED_LEGACY_APPLE_MEDIA_KEYS_NOT_SUPPORTED': 4054,
+  'CANNOT_ADD_EXTERNAL_CHAPTERS_TO_LIVE_STREAM': 4054,
   'STREAMING_ENGINE_STARTUP_INVALID_STATE': 5006,
   'NO_RECOGNIZED_KEY_SYSTEMS': 6000,
   'REQUESTED_KEY_SYSTEM_CONFIG_UNAVAILABLE': 6001,
@@ -363,12 +372,15 @@ shaka.util.Error.Code = {
   'SERVER_CERTIFICATE_REQUEST_FAILED': 6017,
   'MIN_HDCP_VERSION_NOT_MATCH': 6018,
   'ERROR_CHECKING_HDCP_VERSION': 6019,
+  'MISSING_EME_SUPPORT': 6020,
   'LOAD_INTERRUPTED': 7000,
   'OPERATION_ABORTED': 7001,
   'NO_VIDEO_ELEMENT': 7002,
   'OBJECT_DESTROYED': 7003,
   'CONTENT_NOT_LOADED': 7004,
   'SRC_EQUALS_PRELOAD_NOT_SUPPORTED': 7005,
+  'PRELOAD_DESTROYED': 7006,
+  'QUEUE_INDEX_OUT_OF_BOUNDS': 7007,
   'CAST_API_UNAVAILABLE': 8000,
   'NO_CAST_RECEIVERS': 8001,
   'ALREADY_CASTING': 8002,
@@ -396,44 +408,9 @@ shaka.util.Error.Code = {
   'SS_IMA_SDK_MISSING': 10002,
   'SS_AD_MANAGER_NOT_INITIALIZED': 10003,
   'CURRENT_DAI_REQUEST_NOT_FINISHED': 10004,
-  'MT_AD_MANAGER_NOT_INITIALIZED': 10005
-};
-/**
- * A timer allows a single function to be executed at a later time or at
- * regular intervals.
- * @final
- */
-shaka.util.Timer = class {
-  /**
-   * Create a new timer. A timer is committed to a single callback function.
-   * While there is no technical reason to do this, it is far easier to
-   * understand and use timers when they are connected to one functional idea.
-   * @param {function()} onTick
-   */
-  constructor(onTick) {}
-  /**
-   * Have the timer call |onTick| now.
-   * @return {!shaka.util.Timer}
-   */
-  tickNow() {}
-  /**
-   * Have the timer call |onTick| after |seconds| has elapsed unless |stop| is
-   * called first.
-   * @param {number} seconds
-   * @return {!shaka.util.Timer}
-   */
-  tickAfter(seconds) {}
-  /**
-   * Have the timer call |onTick| every |seconds| until |stop| is called.
-   * @param {number} seconds
-   * @return {!shaka.util.Timer}
-   */
-  tickEvery(seconds) {}
-  /**
-   * Stop the timer and clear the previous behaviour. The timer is still usable
-   * after calling |stop|.
-   */
-  stop() {}
+  'MT_AD_MANAGER_NOT_INITIALIZED': 10005,
+  'INTERSTITIAL_AD_MANAGER_NOT_INITIALIZED': 10006,
+  'VAST_INVALID_XML': 10007
 };
 /**
  * @namespace shaka.util.StringUtils
@@ -667,7 +644,7 @@ shaka.util.LanguageUtils = class {
    * Find the locale in |searchSpace| that comes closest to |target|. If no
    * locale is found to be close to |target|, then |null| will be returned.
    * @param {string} target
-   * @param {!Iterable.<string>} searchSpace
+   * @param {!Iterable<string>} searchSpace
    * @return {?string}
    */
   static findClosestLocale(target, searchSpace) {}
@@ -696,7 +673,7 @@ shaka.ui.Localization = class extends shaka.util.FakeEventTarget {
    * of the preferred locales cannot be found, the localization system will fire
    * an event identifying which locales it does not know. The localization
    * system will then continue to operate using the closest matches it has.
-   * @param {!Iterable.<string>} locales
+   * @param {!Iterable<string>} locales
    *    The locale codes for the requested locales in order of preference.
    */
   changeLocale(locales) {}
@@ -705,7 +682,7 @@ shaka.ui.Localization = class extends shaka.util.FakeEventTarget {
    * existing localizations for the given locale.
    * @param {string} locale
    *   The locale that the localizations should be added to.
-   * @param {!Map.<string, string>} localizations
+   * @param {!Map<string, string>} localizations
    *   A mapping of id to localized text that should used to modify the internal
    *   collection of localizations.
    * @param {shaka.ui.Localization.ConflictResolution=} conflictResolution
@@ -723,7 +700,7 @@ shaka.ui.Localization = class extends shaka.util.FakeEventTarget {
    *    for (const key of dictionary.keys()) {
    *      dictionary.set(key, localization.resolve(key));
    *    }
-   * @param {!Map.<string, string>} dictionary
+   * @param {!Map<string, string>} dictionary
    */
   resolveDictionary(dictionary) {}
   /**
@@ -737,7 +714,7 @@ shaka.ui.Localization = class extends shaka.util.FakeEventTarget {
   resolve(id) {}
   /**
    * The locales currently used. An empty set means "no preference".
-   * @return {!Set.<string>}
+   * @return {!Set<string>}
    */
   getCurrentLocales() {}
 };
@@ -836,10 +813,43 @@ shaka.util.EventManager = class {
  */
 shaka.util.EventManager.ListenerType;
 /**
+ * @enum {number}
+ */
+shaka.config.AutoShowText = {
+  'NEVER': 0,
+  'ALWAYS': 1,
+  'IF_PREFERRED_TEXT_LANGUAGE': 2,
+  'IF_SUBTITLES_MAY_BE_NEEDED': 3
+};
+/**
+ * @summary
+ *  lcevcDec - (MPEG-5 Part 2 LCEVC - Decoder) provides
+ *  all the operations related to the enhancement and rendering
+ *  of LCEVC enabled streams and on to a canvas.
+ * @implements {shaka.util.IReleasable}
+ */
+shaka.lcevc.Dec = class {
+  /**
+   * @param {HTMLVideoElement} media The video element that will be attached to
+   * LCEVC Decoder for input.
+   * @param {HTMLCanvasElement} canvas The canvas element that will be attached
+   * to LCEVC Decoder to render the enhanced frames.
+   * @param {shaka.extern.LcevcConfiguration} lcevcConfig LCEVC configuration
+   * object to initialize the LCEVC Decoder.
+   * @param {boolean} isDualTrack
+   */
+  constructor(media, canvas, lcevcConfig, isDualTrack) {}
+  /**
+   * Close LCEVC Decoder.
+   * @override
+   */
+  release() {}
+};
+/**
  * The IClosedCaptionParser defines the interface to provide all operations for
  * parsing the closed captions embedded in Dash videos streams.
  * TODO: Remove this interface and move method definitions
- * directly to ClosedCaptonParser.
+ * directly to ClosedCaptionParser.
  * @interface
  */
 shaka.media.IClosedCaptionParser = class {
@@ -964,6 +974,36 @@ shaka.text.CueRegion.scrollMode = {
   'NONE': '',
   'UP': 'up'
 };
+/**  */
+shaka.util.ObjectUtils = class {
+  /**
+   * Performs a deep clone of the given simple object.  This does not copy
+   * prototypes, custom properties (e.g. read-only), or multiple references to
+   * the same object.  If the caller needs these fields, it will need to set
+   * them after this returns.
+   * @template T
+   * @param {T} arg
+   * @return {T}
+   */
+  static cloneObject(arg) {}
+  /**
+   * Performs a shallow clone of the given simple object.  This does not copy
+   * prototypes or custom properties (e.g. read-only).
+   * @template T
+   * @param {T} original
+   * @return {T}
+   */
+  static shallowCloneObject(original) {}
+  /**
+   * Constructs a string out of a value, similar to the JSON.stringify method.
+   * Unlike that method, this guarantees that the order of the keys in an
+   * object is alphabetical, so it can be used as a way to reliably compare two
+   * objects.
+   * @param {?} value
+   * @return {string}
+   */
+  static alphabeticalKeyOrderStringify(value) {}
+};
 /**
  */
 shaka.text.Cue = class {
@@ -987,6 +1027,14 @@ shaka.text.Cue = class {
    * @suppress {checkTypes} since we must use [] and "in" with a struct type.
    */
   static equal(cue1, cue2) {}
+  /**
+   * Parses cue payload, searches for styling entities and, if needed,
+   * modifies original payload and creates nested cues to better represent
+   * styling found in payload. All changes are done in-place.
+   * @param {!shaka.text.Cue} cue
+   * @param {!Map<string, !shaka.text.Cue>=} styles
+   */
+  static parseCuePayload(cue, styles) {}
 };
 /**
      * The start time of the cue in seconds, relative to the start of the
@@ -1144,7 +1192,7 @@ shaka.text.Cue.prototype.textCombineUpright;
 /**
      * Text decoration. A combination of underline, overline
      * and line through. Empty array means no decoration.
-     * @type {!Array.<!shaka.text.Cue.textDecoration>}
+     * @type {!Array<!shaka.text.Cue.textDecoration>}
      */
 shaka.text.Cue.prototype.textDecoration;
 /**
@@ -1176,7 +1224,7 @@ shaka.text.Cue.prototype.id;
      * Nested cues, which should be laid out horizontally in one block.
      * Top-level cues are blocks, and nested cues are inline elements.
      * Cues can be nested arbitrarily deeply.
-     * @type {!Array.<!shaka.text.Cue>}
+     * @type {!Array<!shaka.text.Cue>}
      */
 shaka.text.Cue.prototype.nestedCues;
 /**
@@ -1419,6 +1467,43 @@ shaka.text.TextEngine = class {
   destroy() {}
 };
 /**
+ * A timer allows a single function to be executed at a later time or at
+ * regular intervals.
+ * @final
+ */
+shaka.util.Timer = class {
+  /**
+   * Create a new timer. A timer is committed to a single callback function.
+   * While there is no technical reason to do this, it is far easier to
+   * understand and use timers when they are connected to one functional idea.
+   * @param {function()} onTick
+   */
+  constructor(onTick) {}
+  /**
+   * Have the timer call |onTick| now.
+   * @return {!shaka.util.Timer}
+   */
+  tickNow() {}
+  /**
+   * Have the timer call |onTick| after |seconds| has elapsed unless |stop| is
+   * called first.
+   * @param {number} seconds
+   * @return {!shaka.util.Timer}
+   */
+  tickAfter(seconds) {}
+  /**
+   * Have the timer call |onTick| every |seconds| until |stop| is called.
+   * @param {number} seconds
+   * @return {!shaka.util.Timer}
+   */
+  tickEvery(seconds) {}
+  /**
+   * Stop the timer and clear the previous behaviour. The timer is still usable
+   * after calling |stop|.
+   */
+  stop() {}
+};
+/**
  * @summary A set of utility functions for dealing with Streams and Manifests.
  */
 shaka.util.StreamUtils = class {
@@ -1470,11 +1555,10 @@ shaka.abr.SimpleAbrManager = class {
    */
   init(switchCallback) {}
   /**
-   * @param {boolean=} preferFastSwitching
    * @return {shaka.extern.Variant}
    * @override
    */
-  chooseVariant(preferFastSwitching) {}
+  chooseVariant() {}
   /**
    * @override
    */
@@ -1491,9 +1575,11 @@ shaka.abr.SimpleAbrManager = class {
    *     to another stream.
    * @param {shaka.extern.Request=} request
    *     A reference to the request
+   * @param {shaka.extern.RequestContext=} context
+   *     A reference to the request context
    * @override
    */
-  segmentDownloaded(deltaTimeMs, numBytes, allowSwitch, request) {}
+  segmentDownloaded(deltaTimeMs, numBytes, allowSwitch, request, context) {}
   /**
    * @override
    */
@@ -1524,43 +1610,40 @@ shaka.abr.SimpleAbrManager = class {
   configure(config) {}
 };
 /**
- * @enum {number}
- */
-shaka.config.AutoShowText = {
-  'NEVER': 0,
-  'ALWAYS': 1,
-  'IF_PREFERRED_TEXT_LANGUAGE': 2,
-  'IF_SUBTITLES_MAY_BE_NEEDED': 3
-};
-/**
  * @enum {string}
  */
-shaka.config.CodecSwitchingStrategy = {
-  RELOAD: 'reload',
-  SMOOTH: 'smooth'
+shaka.config.CrossBoundaryStrategy = {
+  'KEEP': 'keep',
+  'RESET': 'reset',
+  'RESET_TO_ENCRYPTED': 'reset_to_encrypted',
+  'RESET_ON_ENCRYPTION_CHANGE': 'RESET_ON_ENCRYPTION_CHANGE'
 };
 /**
  * A utility to wrap abortable operations.  Note that these are not cancelable.
- * Cancelation implies undoing what has been done so far, whereas aborting only
+ * Cancellation implies undoing what has been done so far, whereas aborting only
  * means that further work is stopped.
- * @implements {shaka.extern.IAbortableOperation.<T>}
+ * @implements {shaka.extern.IAbortableOperation<T>}
  * @template T
  */
 shaka.util.AbortableOperation = class {
   /**
-   * @param {!Promise.<T>} promise
+   * @param {!Promise<T>} promise
    *   A Promise which represents the underlying operation.  It is resolved when
    *   the operation is complete, and rejected if the operation fails or is
    *   aborted.  Aborted operations should be rejected with a shaka.util.Error
    *   object using the error code OPERATION_ABORTED.
    * @param {function():!Promise} onAbort
    *   Will be called by this object to abort the underlying operation.
-   *   This is not cancelation, and will not necessarily result in any work
+   *   This is not cancellation, and will not necessarily result in any work
    *   being undone.  abort() should return a Promise which is resolved when the
    *   underlying operation has been aborted.  The returned Promise should never
    *   be rejected.
    */
   constructor(promise, onAbort) {}
+  /**
+   * @return {boolean} True if the operation has been aborted.
+   */
+  aborted() {}
   /**
    * @param {!shaka.util.Error} error
    * @return {!shaka.util.AbortableOperation} An operation which has already
@@ -1580,7 +1663,7 @@ shaka.util.AbortableOperation = class {
    */
   static completed(value) {}
   /**
-   * @param {!Promise.<U>} promise
+   * @param {!Promise<U>} promise
    * @return {!shaka.util.AbortableOperation.<U>} An operation which cannot be
    *   aborted.  It will be completed when the given Promise is resolved, or
    *   will be failed when the given Promise is rejected.
@@ -1592,7 +1675,7 @@ shaka.util.AbortableOperation = class {
    */
   abort() {}
   /**
-   * @param {!Array.<!shaka.util.AbortableOperation>} operations
+   * @param {!Array<!shaka.util.AbortableOperation>} operations
    * @return {!shaka.util.AbortableOperation} An operation which is resolved
    *   when all operations are successful and fails when any operation fails.
    *   For this operation, abort() aborts all given operations.
@@ -1605,7 +1688,7 @@ shaka.util.AbortableOperation = class {
   /**
    * @param {(undefined|
    *          function(T):U|
-   *          function(T):!Promise.<U>|
+   *          function(T):!Promise<U>|
    *          function(T):!shaka.util.AbortableOperation.<U>)} onSuccess
    *   A callback to be invoked after this operation is complete, to chain to
    *   another operation.  The callback can return a plain value, a Promise to
@@ -1622,7 +1705,7 @@ shaka.util.AbortableOperation = class {
   chain(onSuccess, onError) {}
 };
 /**
- * @const {!Promise.<T>}
+ * @const {!Promise<T>}
  */
 shaka.util.AbortableOperation.prototype.promise;
 /**
@@ -1640,6 +1723,8 @@ shaka.net.NetworkingEngine = class extends shaka.util.FakeEventTarget {
    *   of whether the switching is allowed.
    * @param {shaka.net.NetworkingEngine.OnHeadersReceived=} onHeadersReceived
    *   Called when the headers are received for a download.
+   * @param {shaka.net.NetworkingEngine.OnDownloadCompleted=
+   *        } onDownloadCompleted Called when a download completed successfully.
    * @param {shaka.net.NetworkingEngine.OnDownloadFailed=} onDownloadFailed
    *   Called when a download fails, for any reason.
    * @param {shaka.net.NetworkingEngine.OnRequest=} onRequest
@@ -1649,15 +1734,11 @@ shaka.net.NetworkingEngine = class extends shaka.util.FakeEventTarget {
    * @param {shaka.net.NetworkingEngine.OnResponse=} onResponse
    *   Called when receive the response
    */
-  constructor(onProgressUpdated, onHeadersReceived, onDownloadFailed, onRequest, onRetry, onResponse) {}
+  constructor(onProgressUpdated, onHeadersReceived, onDownloadCompleted, onDownloadFailed, onRequest, onRetry, onResponse) {}
   /**
-   * @param {boolean} forceHTTP
+   * @param {shaka.extern.NetworkingConfiguration} config
    */
-  setForceHTTP(forceHTTP) {}
-  /**
-   * @param {boolean} forceHTTPS
-   */
-  setForceHTTPS(forceHTTPS) {}
+  configure(config) {}
   /**
    * Registers a scheme plugin.  This plugin will handle all requests with the
    * given scheme.  If a plugin with the same scheme already exists, it is
@@ -1706,6 +1787,10 @@ shaka.net.NetworkingEngine = class extends shaka.util.FakeEventTarget {
    */
   clearAllResponseFilters() {}
   /**
+   * Clears Common Access Token map.
+   */
+  clearCommonAccessTokenMap() {}
+  /**
    * Gets a copy of the default retry parameters.
    * @return {shaka.extern.RetryParameters}
    * NOTE: The implementation moved to shaka.net.Backoff to avoid a circular
@@ -1714,7 +1799,7 @@ shaka.net.NetworkingEngine = class extends shaka.util.FakeEventTarget {
   static defaultRetryParameters() {}
   /**
    * Makes a simple network request for the given URIs.
-   * @param {!Array.<string>} uris
+   * @param {!Array<string>} uris
    * @param {shaka.extern.RetryParameters} retryParams
    * @param {?function(BufferSource):!Promise=} streamDataCallback
    * @return {shaka.extern.Request}
@@ -1761,12 +1846,12 @@ shaka.net.NetworkingEngine.PendingRequest = class extends shaka.util.AbortableOp
    *   shaka.util.Error object using the error code OPERATION_ABORTED.
    * @param {function():!Promise} onAbort
    *   Will be called by this object to abort the underlying operation.  This
-   *   is not cancelation, and will not necessarily result in any work being
+   *   is not cancellation, and will not necessarily result in any work being
    *   undone.  abort() should return a Promise which is resolved when the
    *   underlying operation has been aborted.  The returned Promise should
    *   never be rejected.
-   * @param {shaka.net.NetworkingEngine.NumBytesRemainingClass}
-   *   numBytesRemainingObj
+   * @param {shaka.net.NetworkingEngine.NumBytesRemainingClass
+   *        } numBytesRemainingObj
    */
   constructor(promise, onAbort, numBytesRemainingObj) {}
 };
@@ -1800,7 +1885,13 @@ shaka.net.NetworkingEngine.AdvancedRequestType = {
   'MASTER_PLAYLIST': 3,
   'MPD': 4,
   'MSS': 5,
-  'MPD_PATCH': 6
+  'MPD_PATCH': 6,
+  'MEDIATAILOR_SESSION_INFO': 7,
+  'MEDIATAILOR_TRACKING_INFO': 8,
+  'MEDIATAILOR_STATIC_RESOURCE': 9,
+  'MEDIATAILOR_TRACKING_EVENT': 10,
+  'INTERSTITIAL_ASSET_LIST': 11,
+  'INTERSTITIAL_AD_URL': 12
 };
 /**
  * Priority level for network scheme plugins.
@@ -1815,7 +1906,7 @@ shaka.net.NetworkingEngine.PluginPriority = {
 };
 /**
  * @typedef {function(
- *    !Object.<string, string>,
+ *    !Object<string, string>,
  *    !shaka.extern.Request,
  *    !shaka.net.NetworkingEngine.RequestType)}
  * @description
@@ -1828,7 +1919,8 @@ shaka.net.NetworkingEngine.OnHeadersReceived;
  *    number,
  *    number,
  *    boolean,
- *    shaka.extern.Request=)}
+ *    shaka.extern.Request=,
+ *    shaka.extern.RequestContext=)}
  * @description
  * A callback that is passed the duration, in milliseconds,
  * that the request took, the number of bytes transferred, a boolean
@@ -1836,6 +1928,15 @@ shaka.net.NetworkingEngine.OnHeadersReceived;
  * original request.
  */
 shaka.net.NetworkingEngine.onProgressUpdated;
+/**
+ * @typedef {function(
+ *    !shaka.extern.Request,
+ *    !shaka.extern.Response)}
+ * @description
+ * A callback function that notifies the player when a download completed
+ * successfully.
+ */
+shaka.net.NetworkingEngine.OnDownloadCompleted;
 /**
  * @typedef {function(
  *    !shaka.extern.Request,
@@ -1877,8 +1978,8 @@ shaka.net.NetworkingEngine.OnRetry;
  */
 shaka.net.NetworkingEngine.OnResponse;
 /**
-  * @summary DataViewReader abstracts a DataView object.
-  */
+ * @summary DataViewReader abstracts a DataView object.
+ */
 shaka.util.DataViewReader = class {
   /**
    * @param {BufferSource} data
@@ -2063,6 +2164,108 @@ shaka.util.Mp4Parser = class {
  */
 shaka.util.Mp4Parser.CallbackType;
 /**
+ * A set of variants that we want to adapt between.
+ * @final
+ */
+shaka.media.AdaptationSet = class {
+  /**
+   * @param {shaka.extern.Variant} root
+   *    The variant that all other variants will be tested against when being
+   *    added to the adaptation set. If a variant is not compatible with the
+   *    root, it will not be added.
+   * @param {!Iterable<shaka.extern.Variant>=} candidates
+   *    Variants that may be compatible with the root and should be added if
+   *    compatible. If a candidate is not compatible, it will not end up in the
+   *    adaptation set.
+   * @param {boolean=} compareCodecs
+   */
+  constructor(root, candidates, compareCodecs) {}
+};
+/**
+ * @enum {string}
+ */
+shaka.config.CodecSwitchingStrategy = {
+  'RELOAD': 'reload',
+  'SMOOTH': 'smooth'
+};
+/**
+ * An adaptation set criteria is a unit of logic that can take a set of
+ * variants and return a subset of variants that should (and can) be
+ * adapted between.
+ * @interface
+ */
+shaka.media.AdaptationSetCriteria = class {
+  /**
+   * Take a set of variants, and return a subset of variants that can be
+   * adapted between.
+   * @param {!Array<shaka.extern.Variant>} variants
+   * @return {!shaka.media.AdaptationSet}
+   */
+  create(variants) {}
+  /**
+   * Sets the AdaptationSetCriteria configuration.
+   * @param {shaka.media.AdaptationSetCriteria.Configuration} config
+   */
+  configure(config) {}
+  /**
+   * Gets the current AdaptationSetCriteria configuration.
+   * @return {?shaka.media.AdaptationSetCriteria.Configuration}
+   */
+  getConfiguration() {}
+};
+/**
+ * A factory for creating the AdaptationSetCriteria.
+ * @typedef {function():!shaka.media.AdaptationSetCriteria}
+ */
+shaka.media.AdaptationSetCriteria.Factory;
+/**
+ * @typedef {{
+ *   language: string,
+ *   role: string,
+ *   channelCount: number,
+ *   hdrLevel: string,
+ *   spatialAudio: boolean,
+ *   videoLayout: string,
+ *   audioLabel: string,
+ *   videoLabel: string,
+ *   codecSwitchingStrategy: shaka.config.CodecSwitchingStrategy,
+ *   audioCodec: string,
+ *   activeAudioCodec: string,
+ *   activeAudioChannelCount: number,
+ *   preferredAudioCodecs: !Array<string>,
+ *   preferredAudioChannelCount: number,
+ * }}
+ * @property {string} language
+ *   The language used to filter variants.
+ * @property {string} role
+ *   The adaptation role used to filter variants.
+ * @property {string} channelCount
+ *   The audio channel count used to filter variants.
+ * @property {string} hdrLevel
+ *   The HDR level used to filter variants.
+ * @property {boolean} spatialAudio
+ *   Whether should prefer audio tracks with spatial audio.
+ * @property {string} videoLayout
+ *   The video layout used to filter variants.
+ * @property {string} audioLabel
+ *   The audio label used to filter variants.
+ * @property {string} videoLabel
+ *   The video label used to filter variants.
+ * @property {shaka.config.CodecSwitchingStrategy} codecSwitchingStrategy
+ *   The codec switching strategy used to filter variants.
+ * @property {string} audioCodec
+ *   The audio codec used to filter variants.
+ * @property {string} activeAudioCodec
+ *   The active audio codec used to filter variants.
+ * @property {number} activeAudioChannelCount
+ *   The active audio channel count used to filter variants.
+ * @property {!Array<string>} preferredAudioCodecs
+ *   The ordered list of audio codecs to filter variants.
+ * @property {number} preferredAudioChannelCount
+ *   The preferred audio channel count to filter variants.
+ */
+shaka.media.AdaptationSetCriteria.Configuration;
+/**
  * @summary An interface to register manifest parsers.
  */
 shaka.media.ManifestParser = class {
@@ -2091,7 +2294,8 @@ shaka.media.ManifestParser = class {
  */
 shaka.media.ManifestParser.AccessibilityPurpose = {
   VISUALLY_IMPAIRED: 'visually impaired',
-  HARD_OF_HEARING: 'hard of hearing'
+  HARD_OF_HEARING: 'hard of hearing',
+  SPOKEN_SUBTITLES: 'spoken subtitles'
 };
 /**
  * Creates an InitSegmentReference, which provides the location to an
@@ -2099,7 +2303,7 @@ shaka.media.ManifestParser.AccessibilityPurpose = {
  */
 shaka.media.InitSegmentReference = class {
   /**
-   * @param {function():!Array.<string>} uris A function that creates the URIs
+   * @param {function(): !Array<string>} uris A function that creates the URIs
    *   of the resource containing the segment.
    * @param {number} startByte The offset from the start of the resource to the
    *   start of the segment.
@@ -2112,8 +2316,9 @@ shaka.media.InitSegmentReference = class {
    * @param {(null|BufferSource)=} segmentData
    * @param {?shaka.extern.aesKey=} aesKey
    *  The segment's AES-128-CBC full segment encryption key and iv.
+   * @param {boolean=} encrypted
    */
-  constructor(uris, startByte, endByte, mediaQuality, timescale, segmentData, aesKey) {}
+  constructor(uris, startByte, endByte, mediaQuality, timescale, segmentData, aesKey, encrypted) {}
   /**
    * Returns the offset from the start of the resource to the
    * start of the segment.
@@ -2138,7 +2343,7 @@ shaka.media.SegmentReference = class {
    * @param {number} endTime The segment's end time in seconds.  The segment
    *   ends the instant before this time, so |endTime| must be strictly greater
    *   than |startTime|.
-   * @param {function():!Array.<string>} uris
+   * @param {function(): !Array<string>} uris
    *   A function that creates the URIs of the resource containing the segment.
    * @param {number} startByte The offset from the start of the resource to the
    *   start of the segment.
@@ -2169,7 +2374,7 @@ shaka.media.SegmentReference = class {
    *   The end of the append window for this reference, relative to the
    *   presentation.  Any content from after this time will be removed by
    *   MediaSource.
-   * @param {!Array.<!shaka.media.SegmentReference>=} partialReferences
+   * @param {!Array<!shaka.media.SegmentReference>=} partialReferences
    *   A list of SegmentReferences for the partial segments.
    * @param {?string=} tilesLayout
    *   The value is a grid-item-dimension consisting of two positive decimal
@@ -2194,7 +2399,7 @@ shaka.media.SegmentReference = class {
   constructor(startTime, endTime, uris, startByte, endByte, initSegmentReference, timestampOffset, appendWindowStart, appendWindowEnd, partialReferences, tilesLayout, tileDuration, syncTime, status, aesKey, allPartialSegments) {}
   /**
    * Creates and returns the URIs of the resource containing the segment.
-   * @return {!Array.<string>}
+   * @return {!Array<string>}
    */
   getUris() {}
   /**
@@ -2289,12 +2494,12 @@ shaka.media.SegmentReference = class {
   hasByterangeOptimization() {}
   /**
    * Set the segment's thumbnail sprite.
-   * @param {shaka.media.SegmentReference.ThumbnailSprite} thumbnailSprite
+   * @param {shaka.extern.ThumbnailSprite} thumbnailSprite
    */
   setThumbnailSprite(thumbnailSprite) {}
   /**
    * Returns the segment's thumbnail sprite.
-   * @return {?shaka.media.SegmentReference.ThumbnailSprite}
+   * @return {?shaka.extern.ThumbnailSprite}
    */
   getThumbnailSprite() {}
   /**
@@ -2312,13 +2517,15 @@ shaka.media.SegmentReference = class {
   /**
    * Set the segment data.
    * @param {!BufferSource} segmentData
+   * @param {boolean=} singleUse
    */
-  setSegmentData(segmentData) {}
+  setSegmentData(segmentData, singleUse) {}
   /**
    * Return the segment data.
+   * @param {boolean=} allowDeleteOnSingleUse
    * @return {?BufferSource}
    */
-  getSegmentData() {}
+  getSegmentData(allowDeleteOnSingleUse) {}
 };
 /**
  * Rather than using booleans to communicate what the state of the reference,
@@ -2335,7 +2542,7 @@ shaka.media.SegmentReference.Status = {
  *   height: number,
  *   positionX: number,
  *   positionY: number,
- *   width: number
+ *   width: number,
  * }}
  * @property {number} height
  *    The thumbnail height in px.
@@ -2347,6 +2554,21 @@ shaka.media.SegmentReference.Status = {
  *    The thumbnail width in px.
  */
 shaka.media.SegmentReference.ThumbnailSprite;
+/**  */
+shaka.util.Dom = class {
+  /**
+   * Remove all source elements and src attribute from a video element.
+   * Returns true if any change was made.
+   * @param {!HTMLMediaElement} video
+   * @return {boolean}
+   */
+  static clearSourceFromVideo(video) {}
+  /**
+   * Remove all of the child nodes of an element.
+   * @param {!Element} element
+   */
+  static removeAllChildren(element) {}
+};
 /**
  * @summary A set of Id3Utils utility functions.
  */
@@ -2354,7 +2576,7 @@ shaka.util.Id3Utils = class {
   /**
    * Returns an array of ID3 frames found in all the ID3 tags in the id3Data
    * @param {Uint8Array} id3Data - The ID3 data containing one or more ID3 tags
-   * @return {!Array.<shaka.extern.MetadataFrame>}
+   * @return {!Array<shaka.extern.MetadataFrame>}
    */
   static getID3Frames(id3Data) {}
   /**
@@ -2368,7 +2590,7 @@ shaka.util.Id3Utils = class {
 };
 /**
  * @summary
- * Parser for exponential Golomb codes, a variable-bitwidth number encoding
+ * Parser for exponential Golomb codes, a variable-bit width number encoding
  * scheme used by h264.
  * Based on https://github.com/videojs/mux.js/blob/main/lib/utils/exp-golomb.js
  */
@@ -2390,6 +2612,11 @@ shaka.util.TsParser = class {
    */
   clearData() {}
   /**
+   * Set the current discontinuity sequence number.
+   * @param {number} discontinuitySequence
+   */
+  setDiscontinuitySequence(discontinuitySequence) {}
+  /**
    * Parse the given data
    * @param {Uint8Array} data
    * @return {!shaka.util.TsParser}
@@ -2401,7 +2628,7 @@ shaka.util.TsParser = class {
    * Credit to https://github.com/video-dev/hls.js/blob/master/src/demux/tsdemuxer.ts
    * @param {shaka.extern.MPEG_PES} pes
    * @param {?shaka.extern.MPEG_PES=} nextPes
-   * @return {!Array.<shaka.extern.VideoNalu>}
+   * @return {!Array<shaka.extern.VideoNalu>}
    */
   parseAvcNalus(pes, nextPes) {}
   /**
@@ -2409,25 +2636,24 @@ shaka.util.TsParser = class {
    * The code is based on hls.js
    * Credit to https://github.com/video-dev/hls.js/blob/master/src/demux/tsdemuxer.ts
    * @param {shaka.extern.MPEG_PES} pes
-   * @param {?shaka.extern.VideoNalu=} lastNalu
-   * @param {?number=} lastState
-   * @return {!Array.<shaka.extern.VideoNalu>}
+   * @param {{nalu: ?shaka.extern.VideoNalu, state: ?number}} lastInfo
+   * @return {!Array<shaka.extern.VideoNalu>}
    */
-  parseNalus(pes, lastNalu, lastState) {}
+  parseNalus(pes, lastInfo) {}
   /**
    * Return the ID3 metadata
-   * @return {!Array.<shaka.extern.ID3Metadata>}
+   * @return {!Array<shaka.extern.ID3Metadata>}
    */
   getMetadata() {}
   /**
    * Return the audio data
-   * @return {!Array.<shaka.extern.MPEG_PES>}
+   * @return {!Array<shaka.extern.MPEG_PES>}
    */
   getAudioData() {}
   /**
    * Return the video data
    * @param {boolean=} naluProcessing
-   * @return {!Array.<shaka.extern.MPEG_PES>}
+   * @return {!Array<shaka.extern.MPEG_PES>}
    */
   getVideoData(naluProcessing) {}
   /**
@@ -2443,7 +2669,7 @@ shaka.util.TsParser = class {
   getCodecs() {}
   /**
    * Return the video data
-   * @return {!Array.<shaka.extern.VideoNalu>}
+   * @return {!Array<shaka.extern.VideoNalu>}
    */
   getVideoNalus() {}
   /**
@@ -2453,7 +2679,12 @@ shaka.util.TsParser = class {
   getVideoResolution() {}
   /**
    * Return the video information
-   * @return {{height: ?string, width: ?string, codec: ?string}}
+   * @return {{
+   *   height: ?string,
+   *   width: ?string,
+   *   codec: ?string,
+   *   frameRate: ?string,
+   * }}
    */
   getVideoInfo() {}
   /**
@@ -2473,29 +2704,6 @@ shaka.util.TsParser = class {
  * @const {number}
  */
 shaka.util.TsParser.Timescale;
-/**
- * @summary
- *  lcevcDec - (MPEG-5 Part 2 LCEVC - Decoder) provides
- *  all the operations related to the enhancement and rendering
- *  of LCEVC enabled streams and on to a canvas.
- * @implements {shaka.util.IReleasable}
- */
-shaka.lcevc.Dec = class {
-  /**
-   * @param {HTMLVideoElement} media The video element that will be attached to
-   * LCEVC Decoder for input.
-   * @param {HTMLCanvasElement} canvas The canvas element that will be attached
-   * to LCEVC Decoder to render the enhanced frames.
-   * @param {shaka.extern.LcevcConfiguration} lcevcConfig LCEVC configuration
-   * object to initialize the LCEVC Decoder.
-   */
-  constructor(media, canvas, lcevcConfig) {}
-  /**
-   * Close LCEVC Decoder.
-   * @override
-   */
-  release() {}
-};
 /**
  * PresentationTimeline.
  */
@@ -2575,7 +2783,7 @@ shaka.media.PresentationTimeline = class {
    * Gives PresentationTimeline a Stream's timeline so it can size and position
    * the segment availability window, and account for missing segment
    * information.
-   * @param {!Array.<shaka.media.PresentationTimeline.TimeRange>} timeline
+   * @param {!Array<shaka.media.PresentationTimeline.TimeRange>} timeline
    * @param {number} startOffset
    */
   notifyTimeRange(timeline, startOffset) {}
@@ -2584,9 +2792,16 @@ shaka.media.PresentationTimeline = class {
    * the segment availability window, and account for missing segment
    * information.  These segments do not necessarily need to all be from the
    * same stream.
-   * @param {!Array.<!shaka.media.SegmentReference>} references
+   * @param {!Array<!shaka.media.SegmentReference>} references
    */
   notifySegments(references) {}
+  /**
+   * Gives PresentationTimeline an startTime and endTime of the period.
+   * This should be only set for Dash.
+   * @param {number} startTime
+   * @param {number} endTime
+   */
+  notifyPeriodDuration(startTime, endTime) {}
   /**
    * Gets the end time of the last available segment.
    * @return {?number}
@@ -2719,7 +2934,7 @@ shaka.media.PresentationTimeline = class {
  *   unscaledStart: number,
  *   end: number,
  *   partialSegments: number,
- *   segmentPosition: number
+ *   segmentPosition: number,
  * }}
  * @description
  * Defines a time range of a media segment.  Times are in seconds.
@@ -2739,11 +2954,11 @@ shaka.media.PresentationTimeline.TimeRange;
  * SegmentIndex.
  * @implements {shaka.extern.SegmentIndex}
  * @implements {shaka.util.IReleasable}
- * @implements {Iterable.<!shaka.media.SegmentReference>}
+ * @implements {Iterable<?shaka.media.SegmentReference>}
  */
 shaka.media.SegmentIndex = class {
   /**
-   * @param {!Array.<!shaka.media.SegmentReference>} references The list of
+   * @param {!Array<!shaka.media.SegmentReference>} references The list of
    *   SegmentReferences, which must be sorted first by their start times
    *   (ascending) and second by their end times (ascending).
    */
@@ -2788,7 +3003,7 @@ shaka.media.SegmentIndex = class {
    * Used, for example, by the DASH and HLS parser, where manifests may not list
    * all available references, so we must keep available references in memory to
    * fill the availability window.
-   * @param {!Array.<!shaka.media.SegmentReference>} references The list of
+   * @param {!Array<!shaka.media.SegmentReference>} references The list of
    *   SegmentReferences, which must be sorted first by their start times
    *   (ascending) and second by their end times (ascending).
    * @param {number} windowStart The start of the availability window to filter
@@ -2816,9 +3031,14 @@ shaka.media.SegmentIndex = class {
    * Updates the references every so often.  Stops when the references list
    * returned by the callback is null.
    * @param {number} interval The interval in seconds.
-   * @param {function():Array.<shaka.media.SegmentReference>} updateCallback
+   * @param {function(): Array<shaka.media.SegmentReference>} updateCallback
    */
   updateEvery(interval, updateCallback) {}
+  /**
+   * @return {!shaka.media.SegmentIterator}
+   * @override
+   */
+  [Symbol.iterator]() {}
   /**
    * Returns a new iterator that initially points to the segment that contains
    * the given time, or the nearest independent segment before it.
@@ -2830,28 +3050,28 @@ shaka.media.SegmentIndex = class {
    * RFC 8216 rev 13, section 8.1: "Each (non-Partial) Media Segment in a Media
    * Playlist will contain at least one independent frame."
    * @param {number} time
-   * @param {boolean=} allowNonIndepedent
+   * @param {boolean=} allowNonIndependent
    * @param {boolean=} reverse
    * @return {?shaka.media.SegmentIterator}
    */
-  getIteratorForTime(time, allowNonIndepedent, reverse) {}
+  getIteratorForTime(time, allowNonIndependent, reverse) {}
   /**
    * Create a SegmentIndex for a single segment of the given start time and
    * duration at the given URIs.
    * @param {number} startTime
    * @param {number} duration
-   * @param {!Array.<string>} uris
+   * @param {!Array<string>} uris
    * @return {!shaka.media.SegmentIndex}
    */
   static forSingleSegment(startTime, duration, uris) {}
 };
 /**
  * An iterator over a SegmentIndex's references.
- * @implements {Iterator.<shaka.media.SegmentReference>}
+ * @implements {Iterator<?shaka.media.SegmentReference>}
  */
 shaka.media.SegmentIterator = class {
   /**
-   * @param {shaka.media.SegmentIndex} segmentIndex
+   * @param {!shaka.media.SegmentIndex} segmentIndex
    * @param {number} index
    * @param {number} partialSegmentIndex
    * @param {boolean} reverse
@@ -2866,20 +3086,24 @@ shaka.media.SegmentIterator = class {
    */
   currentPosition() {}
   /**
-   * @return {shaka.media.SegmentReference}
+   * @return {?shaka.media.SegmentReference}
    */
   current() {}
   /**
    * @override
+   * @return {!IIterableResult<?shaka.media.SegmentReference>}
    */
   next() {}
+  /**
+   */
+  resetToLastIndependent() {}
 };
 /**
  * A meta-SegmentIndex composed of multiple other SegmentIndexes.
  * Used in constructing multi-Period Streams for DASH.
  * @extends shaka.media.SegmentIndex
  * @implements {shaka.util.IReleasable}
- * @implements {Iterable.<!shaka.media.SegmentReference>}
+ * @implements {Iterable<?shaka.media.SegmentReference>}
  */
 shaka.media.MetaSegmentIndex = class extends shaka.media.SegmentIndex {
   /** */
@@ -2966,12 +3190,20 @@ shaka.util.ConfigUtils = class {
   static getDifferenceFromConfigObjects(object, base) {}
 };
 /**
+ * @enum {number}
+ */
+shaka.config.RepeatMode = {
+  'OFF': 0,
+  'ALL': 1,
+  'SINGLE': 2
+};
+/**
  * @summary A set of FairPlay utility functions.
  */
-shaka.util.FairPlayUtils = class {
+shaka.drm.FairPlay = class {
   /**
    * Check if FairPlay is supported.
-   * @return {!Promise.<boolean>}
+   * @return {!Promise<boolean>}
    */
   static isFairPlaySupported() {}
   /**
@@ -3003,6 +3235,7 @@ shaka.util.FairPlayUtils = class {
    * @param {!Uint8Array} initData
    * @param {string} initDataType
    * @param {?shaka.extern.DrmInfo} drmInfo
+   * @return {!Uint8Array}
    */
   static verimatrixInitDataTransform(initData, initDataType, drmInfo) {}
   /**
@@ -3010,6 +3243,7 @@ shaka.util.FairPlayUtils = class {
    * @param {!Uint8Array} initData
    * @param {string} initDataType
    * @param {?shaka.extern.DrmInfo} drmInfo
+   * @return {!Uint8Array}
    */
   static ezdrmInitDataTransform(initData, initDataType, drmInfo) {}
   /**
@@ -3017,6 +3251,7 @@ shaka.util.FairPlayUtils = class {
    * @param {!Uint8Array} initData
    * @param {string} initDataType
    * @param {?shaka.extern.DrmInfo} drmInfo
+   * @return {!Uint8Array}
    */
   static conaxInitDataTransform(initData, initDataType, drmInfo) {}
   /**
@@ -3024,8 +3259,17 @@ shaka.util.FairPlayUtils = class {
    * @param {!Uint8Array} initData
    * @param {string} initDataType
    * @param {?shaka.extern.DrmInfo} drmInfo
+   * @return {!Uint8Array}
    */
   static expressplayInitDataTransform(initData, initDataType, drmInfo) {}
+  /**
+   * Mux initDataTransform configuration.
+   * @param {!Uint8Array} initData
+   * @param {string} initDataType
+   * @param {?shaka.extern.DrmInfo} drmInfo
+   * @return {!Uint8Array}
+   */
+  static muxInitDataTransform(initData, initDataType, drmInfo) {}
   /**
    * Verimatrix FairPlay request.
    * @param {shaka.net.NetworkingEngine.RequestType} type
@@ -3055,6 +3299,13 @@ shaka.util.FairPlayUtils = class {
    */
   static expressplayFairPlayRequest(type, request, context) {}
   /**
+   * Mux FairPlay request.
+   * @param {shaka.net.NetworkingEngine.RequestType} type
+   * @param {shaka.extern.Request} request
+   * @param {shaka.extern.RequestContext=} context
+   */
+  static muxFairPlayRequest(type, request, context) {}
+  /**
    * Common FairPlay response transform for some DRMs providers.
    * @param {shaka.net.NetworkingEngine.RequestType} type
    * @param {shaka.extern.Response} response
@@ -3070,6 +3321,10 @@ shaka.util.PlayerConfiguration = class {
    * @return {shaka.extern.PlayerConfiguration}
    */
   static createDefault() {}
+  /**
+   * @return {!Object}
+   */
+  static createDefaultForLL() {}
   /**
    * Merges the given configuration changes into the given destination.  This
    * uses the default Player configurations as the template.
@@ -3087,10 +3342,20 @@ shaka.media.PreloadManager = class extends shaka.util.FakeEventTarget {
   /**
    * @param {string} assetUri
    * @param {?string} mimeType
-   * @param {?number} startTime
+   * @param {?number|Date} startTime
    * @param {*} playerInterface
    */
   constructor(assetUri, mimeType, startTime, playerInterface) {}
+  /**
+   * Gets the preloaded variant track if it exists.
+   * @return {?shaka.extern.Track}
+   */
+  getPrefetchedVariantTrack() {}
+  /**
+   * Gets the preloaded text track if it exists.
+   * @return {?shaka.extern.TextTrack}
+   */
+  getPrefetchedTextTrack() {}
   /**
    * Waits for the loading to be finished (or to fail with an error).
    * @return {!Promise}
@@ -3105,6 +3370,49 @@ shaka.media.PreloadManager = class extends shaka.util.FakeEventTarget {
 /**
  * A text displayer plugin using the browser's native VTTCue interface.
  * @implements {shaka.extern.TextDisplayer}
+ */
+shaka.text.NativeTextDisplayer = class {
+  /**
+   * @param {shaka.Player} player
+   */
+  constructor(player) {}
+  /**
+   * @override
+   */
+  configure(config) {}
+  /**
+   * @override
+   */
+  remove(start, end) {}
+  /**
+   * @override
+   */
+  append(cues) {}
+  /**
+   * @override
+   */
+  destroy() {}
+  /**
+   * @override
+   */
+  isTextVisible() {}
+  /**
+   * @override
+   */
+  setTextVisibility(on) {}
+  /**
+   * @override
+   */
+  setTextLanguage(language) {}
+  /**
+   * @override
+   */
+  enableTextDisplayer() {}
+};
+/**
+ * A text displayer plugin using the browser's native VTTCue interface.
+ * @implements {shaka.extern.TextDisplayer}
+ * @deprecated
  */
 shaka.text.SimpleTextDisplayer = class {
   /**
@@ -3136,11 +3444,19 @@ shaka.text.SimpleTextDisplayer = class {
    * @override
    */
   setTextVisibility(on) {}
+  /**
+   * @override
+   */
+  setTextLanguage(language) {}
+  /**
+   * @override
+   */
+  enableTextDisplayer() {}
 };
 /**
-* A stub text displayer plugin that does nothing
-* @implements {shaka.extern.TextDisplayer}
-*/
+ * A stub text displayer plugin that does nothing
+ * @implements {shaka.extern.TextDisplayer}
+ */
 shaka.text.StubTextDisplayer = class {
   /**
    * @override
@@ -3166,14 +3482,14 @@ shaka.text.StubTextDisplayer = class {
    * @override
    */
   setTextVisibility(on) {}
-};
-/**  */
-shaka.util.Dom = class {
   /**
-   * Remove all of the child nodes of an element.
-   * @param {!Element} element
+   * @override
    */
-  static removeAllChildren(element) {}
+  setTextLanguage(language) {}
+  /**
+   * @override
+   */
+  enableTextDisplayer() {}
 };
 /**
  * The text displayer plugin for the Shaka Player UI.  Can also be used directly
@@ -3186,9 +3502,8 @@ shaka.text.UITextDisplayer = class {
    * Constructor.
    * @param {HTMLMediaElement} video
    * @param {HTMLElement} videoContainer
-   * @param {shaka.extern.TextDisplayerConfiguration} config
    */
-  constructor(video, videoContainer, config) {}
+  constructor(video, videoContainer) {}
   /**
    * @override
    */
@@ -3213,6 +3528,14 @@ shaka.text.UITextDisplayer = class {
    * @override
    */
   setTextVisibility(on) {}
+  /**
+   * @override
+   */
+  setTextLanguage(language) {}
+  /**
+   * @override
+   */
+  enableTextDisplayer() {}
 };
 /**
  * @summary Manage the conversion to WebVTT.
@@ -3224,7 +3547,9 @@ shaka.text.WebVttGenerator = class {
  */
 shaka.util.CmcdManager.StreamingFormat = {
   DASH: 'd',
+  LOW_LATENCY_DASH: 'ld',
   HLS: 'h',
+  LOW_LATENCY_HLS: 'lh',
   SMOOTH: 's',
   OTHER: 'o'
 };
@@ -3279,10 +3604,12 @@ shaka.Player = class extends shaka.util.FakeEventTarget {
    *    When provided, the player will attach to <code>mediaElement</code>,
    *    similar to calling <code>attach</code>. When not provided, the player
    *    will remain detached.
+   * @param {HTMLElement=} videoContainer
+   *    The videoContainer to construct UITextDisplayer
    * @param {function(shaka.Player)=} dependencyInjector Optional callback
    *   which is called to inject mocks into the Player.  Used for testing.
    */
-  constructor(mediaElement, dependencyInjector) {}
+  constructor(mediaElement, videoContainer, dependencyInjector) {}
   /**
    * After destruction, a Player object cannot be used again.
    * @override
@@ -3298,10 +3625,16 @@ shaka.Player = class extends shaka.util.FakeEventTarget {
   static registerSupportPlugin(name, callback) {}
   /**
    * Set a factory to create an ad manager during player construction time.
-   * This method needs to be called bafore instantiating the Player class.
+   * This method needs to be called before instantiating the Player class.
    * @param {!shaka.extern.IAdManager.Factory} factory
    */
   static setAdManagerFactory(factory) {}
+  /**
+   * Set a factory to create an queue manager during player construction time.
+   * This method needs to be called before instantiating the Player class.
+   * @param {!shaka.extern.IQueueManager.Factory} factory
+   */
+  static setQueueManagerFactory(factory) {}
   /**
    * Return whether the browser provides basic support.  If this returns false,
    * Shaka Player cannot be used at all.  In this case, do not construct a
@@ -3317,7 +3650,7 @@ shaka.Player = class extends shaka.util.FakeEventTarget {
    * NOTE: This may show a request to the user for permission.
    * @see https://bit.ly/2ywccmH
    * @param {boolean=} promptsOkay
-   * @return {!Promise.<shaka.extern.SupportType>}
+   * @return {!Promise<shaka.extern.SupportType>}
    */
   static probeSupport(promptsOkay) {}
   /**
@@ -3355,14 +3688,14 @@ shaka.Player = class extends shaka.util.FakeEventTarget {
    * process. Can for example be called from the <code>manifestparsed</code>
    * event handler to update the start position based on information in the
    * manifest.
-   * @param {number} startTime
+   * @param {number|Date} startTime
    */
   updateStartTime(startTime) {}
   /**
    * Loads a new stream.
    * If another stream was already playing, first unloads that stream.
    * @param {string|shaka.media.PreloadManager} assetUriOrPreloader
-   * @param {?number=} startTime
+   * @param {?number|Date=} startTime
    *    When <code>startTime</code> is <code>null</code> or
    *    <code>undefined</code>, playback will start at the default start time (0
    *    for VOD and liveEdge for LIVE).
@@ -3377,7 +3710,7 @@ shaka.Player = class extends shaka.util.FakeEventTarget {
    * When in src= mode, this unloads but does not make a PreloadManager.
    * @param {boolean=} initializeMediaSource
    * @param {boolean=} keepAdManager
-   * @return {!Promise.<?shaka.media.PreloadManager>}
+   * @return {!Promise<?shaka.media.PreloadManager>}
    */
   unloadAndSavePreload(initializeMediaSource, keepAdManager) {}
   /**
@@ -3389,7 +3722,7 @@ shaka.Player = class extends shaka.util.FakeEventTarget {
    * attached to something else.
    * @param {boolean=} keepAdManager
    * @param {boolean=} saveLivePosition
-   * @return {!Promise.<?shaka.media.PreloadManager>}
+   * @return {!Promise<?shaka.media.PreloadManager>}
    */
   detachAndSavePreload(keepAdManager, saveLivePosition) {}
   /**
@@ -3406,14 +3739,15 @@ shaka.Player = class extends shaka.util.FakeEventTarget {
    * If this returns null rather than a PreloadManager, that indicates that the
    * asset must be played with src=, which cannot be preloaded.
    * @param {string} assetUri
-   * @param {?number=} startTime
+   * @param {?number|Date=} startTime
    *    When <code>startTime</code> is <code>null</code> or
    *    <code>undefined</code>, playback will start at the default start time (0
    *    for VOD and liveEdge for LIVE).
    * @param {?string=} mimeType
-   * @return {!Promise.<?shaka.media.PreloadManager>}
+   * @param {?shaka.extern.PlayerConfiguration=} config
+   * @return {!Promise<?shaka.media.PreloadManager>}
    */
-  preload(assetUri, startTime, mimeType) {}
+  preload(assetUri, startTime, mimeType, config) {}
   /**
    * Calls |destroy| on each PreloadManager object this player has created.
    */
@@ -3446,12 +3780,24 @@ shaka.Player = class extends shaka.util.FakeEventTarget {
    */
   configure(config, value) {}
   /**
+   * Changes low latency configuration settings on the Player.
+   * @param {!Object} config This object should follow the
+   *    {@link shaka.extern.PlayerConfiguration} object.  Not all fields
+   *    need to be set; unset fields retain their old values.
+   */
+  configurationForLowLatency(config) {}
+  /**
    * Return a copy of the current configuration.  Modifications of the returned
    * value will not affect the Player's active configuration.  You must call
    * <code>player.configure()</code> to make changes.
    * @return {shaka.extern.PlayerConfiguration}
    */
   getConfiguration() {}
+  /**
+   * Return a copy of the current configuration for low latency.
+   * @return {!Object}
+   */
+  getConfigurationForLowLatency() {}
   /**
    * Return a copy of the current non default configuration.  Modifications of
    * the returned value will not affect the Player's active configuration.
@@ -3504,6 +3850,12 @@ shaka.Player = class extends shaka.util.FakeEventTarget {
    */
   getAdManager() {}
   /**
+   * Returns a shaka.queue.QueueManager instance, responsible for queue
+   * management.
+   * @return {shaka.extern.IQueueManager}
+   */
+  getQueueManager() {}
+  /**
    * Get if the player is playing live content. If the player has not loaded
    * content, this will return <code>false</code>.
    * @return {boolean}
@@ -3525,6 +3877,16 @@ shaka.Player = class extends shaka.util.FakeEventTarget {
    * @return {boolean}
    */
   isAudioOnly() {}
+  /**
+   * Check if the manifest contains only video-only content. If the player has
+   * not loaded content, this will return <code>false</code>.
+   * <p>
+   * The player does not support content that contain more than one type of
+   * variants (i.e. mixing audio-only, video-only, audio-video). Content will be
+   * filtered to only contain one type of variant.
+   * @return {boolean}
+   */
+  isVideoOnly() {}
   /**
    * Get the range of time (in seconds) that seeking is allowed. If the player
    * has not loaded content and the manifest is HLS, this will return a range
@@ -3565,7 +3927,7 @@ shaka.Player = class extends shaka.util.FakeEventTarget {
   getExpiration() {}
   /**
    * Returns the active sessions metadata
-   * @return {!Array.<shaka.extern.DrmSessionMetadata>}
+   * @return {!Array<shaka.extern.DrmSessionMetadata>}
    */
   getActiveSessionsMetadata() {}
   /**
@@ -3593,6 +3955,12 @@ shaka.Player = class extends shaka.util.FakeEventTarget {
    */
   getPlaybackRate() {}
   /**
+   * Enable or disable trick play track if the currently loaded content
+   * has it.
+   * @param {boolean} on
+   */
+  useTrickPlayTrackIfAvailable(on) {}
+  /**
    * Enable trick play to skip through content without playing by repeatedly
    * seeking. For example, a rate of 2.5 would result in 2.5 seconds of content
    * being skipped every second. A negative rate will result in moving
@@ -3604,8 +3972,9 @@ shaka.Player = class extends shaka.util.FakeEventTarget {
    * Trick play will be canceled automatically if the playhead hits the
    * beginning or end of the seekable range for the content.
    * @param {number} rate
+   * @param {boolean=} useTrickPlayTrack
    */
-  trickPlay(rate) {}
+  trickPlay(rate, useTrickPlayTrack) {}
   /**
    * Cancel trick-play. If the player has not loaded content or is still loading
    * content this will be a no-op.
@@ -3615,35 +3984,35 @@ shaka.Player = class extends shaka.util.FakeEventTarget {
    * Return a list of variant tracks that can be switched to.
    * <p>
    * If the player has not loaded content, this will return an empty list.
-   * @return {!Array.<shaka.extern.Track>}
+   * @return {!Array<shaka.extern.Track>}
    */
   getVariantTracks() {}
   /**
    * Return a list of text tracks that can be switched to.
    * <p>
    * If the player has not loaded content, this will return an empty list.
-   * @return {!Array.<shaka.extern.Track>}
+   * @return {!Array<shaka.extern.TextTrack>}
    */
   getTextTracks() {}
   /**
    * Return a list of image tracks that can be switched to.
    * If the player has not loaded content, this will return an empty list.
-   * @return {!Array.<shaka.extern.Track>}
+   * @return {!Array<shaka.extern.ImageTrack>}
    */
   getImageTracks() {}
   /**
-   * Returns Thumbnail objects for each thumbnail for a given image track ID.
+   * Returns Thumbnail objects for each thumbnail.
    * If the player has not loaded content, this will return a null.
-   * @param {number} trackId
-   * @return {!Promise.<?Array<!shaka.extern.Thumbnail>>}
+   * @param {?number=} trackId
+   * @return {!Promise<?Array<!shaka.extern.Thumbnail>>}
    */
   getAllThumbnails(trackId) {}
   /**
-   * Return a Thumbnail object from a image track Id and time.
+   * Return a Thumbnail object from a time.
    * If the player has not loaded content, this will return a null.
-   * @param {number} trackId
+   * @param {?number} trackId
    * @param {number} time
-   * @return {!Promise.<?shaka.extern.Thumbnail>}
+   * @return {!Promise<?shaka.extern.Thumbnail>}
    */
   getThumbnails(trackId, time) {}
   /**
@@ -3653,7 +4022,7 @@ shaka.Player = class extends shaka.util.FakeEventTarget {
    * <p>
    * Note that <code>AdaptationEvents</code> are not fired for manual track
    * selections.
-   * @param {shaka.extern.Track} track
+   * @param {shaka.extern.TextTrack} track
    */
   selectTextTrack(track) {}
   /**
@@ -3682,53 +4051,114 @@ shaka.Player = class extends shaka.util.FakeEventTarget {
    */
   selectVariantTrack(track, clearBuffer, safeMargin) {}
   /**
+   * Select an audio track compatible with the current video track.
+   * If the player has not loaded any content, this will be a no-op.
+   * @param {shaka.extern.AudioTrack} audioTrack
+   * @param {number=} safeMargin Optional amount of buffer (in seconds) to
+   *   retain when clearing the buffer. Useful for switching quickly
+   *   without causing a buffering event. Defaults to 0 if not provided. Can
+   *   cause hiccups on some browsers if chosen too small, e.g. The amount of
+   *   two segments is a fair minimum to consider as safeMargin value.
+   */
+  selectAudioTrack(audioTrack, safeMargin) {}
+  /**
+   * Return a list of audio tracks compatible with the current video track.
+   * @return {!Array<shaka.extern.AudioTrack>}
+   */
+  getAudioTracks() {}
+  /**
+   * Select a video track compatible with the current audio track.
+   * If the player has not loaded any content, this will be a no-op.
+   * @param {shaka.extern.VideoTrack} videoTrack
+   * @param {boolean=} clearBuffer
+   * @param {number=} safeMargin Optional amount of buffer (in seconds) to
+   *   retain when clearing the buffer. Useful for switching quickly
+   *   without causing a buffering event. Defaults to 0 if not provided. Can
+   *   cause hiccups on some browsers if chosen too small, e.g. The amount of
+   *   two segments is a fair minimum to consider as safeMargin value.
+   */
+  selectVideoTrack(videoTrack, clearBuffer, safeMargin) {}
+  /**
+   * Return a list of video tracks compatible with the current audio track.
+   * @return {!Array<shaka.extern.VideoTrack>}
+   */
+  getVideoTracks() {}
+  /**
    * Return a list of audio language-role combinations available.  If the
    * player has not loaded any content, this will return an empty list.
-   * @return {!Array.<shaka.extern.LanguageRole>}
+   * <br>
+   * This API is deprecated and will be removed in version 5.0, please migrate
+   * to using `getAudioTracks` and `selectAudioTrack`.
+   * @return {!Array<shaka.extern.LanguageRole>}
+   * @deprecated
    */
   getAudioLanguagesAndRoles() {}
   /**
    * Return a list of text language-role combinations available.  If the player
    * has not loaded any content, this will be return an empty list.
-   * @return {!Array.<shaka.extern.LanguageRole>}
+   * <br>
+   * This API is deprecated and will be removed in version 5.0, please migrate
+   * to using `getTextTracks` and `selectTextTrack`.
+   * @return {!Array<shaka.extern.LanguageRole>}
+   * @deprecated
    */
   getTextLanguagesAndRoles() {}
   /**
    * Return a list of audio languages available. If the player has not loaded
    * any content, this will return an empty list.
-   * @return {!Array.<string>}
+   * <br>
+   * This API is deprecated and will be removed in version 5.0, please migrate
+   * to using `getAudioTracks` and `selectAudioTrack`.
+   * @return {!Array<string>}
+   * @deprecated
    */
   getAudioLanguages() {}
   /**
    * Return a list of text languages available. If the player has not loaded
    * any content, this will return an empty list.
-   * @return {!Array.<string>}
+   * <br>
+   * This API is deprecated and will be removed in version 5.0, please migrate
+   * to using `getTextTracks` and `selectTextTrack`.
+   * @return {!Array<string>}
+   * @deprecated
    */
   getTextLanguages() {}
   /**
    * Sets the current audio language and current variant role to the selected
    * language, role and channel count, and chooses a new variant if need be.
    * If the player has not loaded any content, this will be a no-op.
+   * <br>
+   * This API is deprecated and will be removed in version 5.0, please migrate
+   * to using `getAudioTracks` and `selectAudioTrack`.
    * @param {string} language
    * @param {string=} role
    * @param {number=} channelsCount
    * @param {number=} safeMargin
    * @param {string=} codec
+   * @param {boolean=} spatialAudio
+   * @param {string=} label
+   * @deprecated
    */
-  selectAudioLanguage(language, role, channelsCount, safeMargin, codec) {}
+  selectAudioLanguage(language, role, channelsCount, safeMargin, codec, spatialAudio, label) {}
   /**
    * Sets the current text language and current text role to the selected
    * language and role, and chooses a new variant if need be. If the player has
    * not loaded any content, this will be a no-op.
+   * <br>
+   * This API is deprecated and will be removed in version 5.0, please migrate
+   * to using `getTextTracks` and `selectTextTrack`.
    * @param {string} language
    * @param {string=} role
    * @param {boolean=} forced
+   * @deprecated
    */
   selectTextLanguage(language, role, forced) {}
   /**
    * Select variant tracks that have a given label. This assumes the
    * label uniquely identifies an audio stream, so all the variants
    * are expected to have the same variant.audio.
+   * This API is deprecated and will be removed in version 5.0, please migrate
+   * to using `getAudioTracks` and `selectAudioTrack`.
    * @param {string} label
    * @param {boolean=} clearBuffer Optional clear buffer or not when
    *  switch to new variant
@@ -3736,6 +4166,7 @@ shaka.Player = class extends shaka.util.FakeEventTarget {
    * @param {number=} safeMargin Optional amount of buffer (in seconds) to
    *   retain when clearing the buffer.
    *   Defaults to 0 if not provided. Ignored if clearBuffer is false.
+   * @deprecated
    */
   selectVariantsByLabel(label, clearBuffer, safeMargin) {}
   /**
@@ -3745,15 +4176,21 @@ shaka.Player = class extends shaka.util.FakeEventTarget {
   isTextTrackVisible() {}
   /**
    * Return a list of chapters tracks.
-   * @return {!Array.<shaka.extern.Track>}
+   * @return {!Array<shaka.extern.TextTrack>}
    */
   getChaptersTracks() {}
   /**
    * This returns the list of chapters.
    * @param {string} language
-   * @return {!Array.<shaka.extern.Chapter>}
+   * @return {!Array<shaka.extern.Chapter>}
    */
   getChapters(language) {}
+  /**
+   * This returns the list of chapters.
+   * @param {string} language
+   * @return {!Promise<!Array<shaka.extern.Chapter>>}
+   */
+  getChaptersAsync(language) {}
   /**
    * Enable or disable the text displayer.  If the player is in an unloaded
    * state, the request will be applied next time content is loaded.
@@ -3802,7 +4239,7 @@ shaka.Player = class extends shaka.util.FakeEventTarget {
    * @param {string=} codec
    * @param {string=} label
    * @param {boolean=} forced
-   * @return {!Promise.<shaka.extern.Track>}
+   * @return {!Promise<shaka.extern.TextTrack>}
    */
   addTextTrackAsync(uri, language, kind, mimeType, codec, label, forced) {}
   /**
@@ -3813,7 +4250,7 @@ shaka.Player = class extends shaka.util.FakeEventTarget {
    * application.
    * @param {string} uri
    * @param {string=} mimeType
-   * @return {!Promise.<shaka.extern.Track>}
+   * @return {!Promise<shaka.extern.ImageTrack>}
    */
   addThumbnailsTrack(uri, mimeType) {}
   /**
@@ -3823,7 +4260,7 @@ shaka.Player = class extends shaka.util.FakeEventTarget {
    * @param {string} uri
    * @param {string} language
    * @param {string=} mimeType
-   * @return {!Promise.<shaka.extern.Track>}
+   * @return {!Promise<shaka.extern.TextTrack>}
    */
   addChaptersTrack(uri, language, mimeType) {}
   /**
@@ -3864,10 +4301,35 @@ shaka.Player = class extends shaka.util.FakeEventTarget {
    */
   getManifestParserFactory() {}
   /**
+   * Gets information about the currently fetched video, audio, and text.
+   * In the case of a multi-codec or multi-mimeType manifest, this can let you
+   * determine the exact codecs and mimeTypes being fetched at the moment.
+   * @return {!shaka.extern.PlaybackInfo}
+   */
+  getFetchedPlaybackInfo() {}
+  /**
    * Set the videoContainer to construct UITextDisplayer.
    * @param {HTMLElement} videoContainer
    */
   setVideoContainer(videoContainer) {}
+  /**
+   * Load a new font on the page. If the font was already loaded, it does
+   * nothing.
+   * @param {string} name
+   * @param {string} url
+   * @return {!Promise<void>}
+   */
+  addFont(name, url) {}
+  /**
+   * Indicate if we are using remote playback.
+   * @return {boolean}
+   */
+  isRemotePlayback() {}
+  /**
+   * Indicate if the video has ended.
+   * @return {boolean}
+   */
+  isEnded() {}
 };
 /**
  * In order to know what method of loading the player used for some content, we
@@ -3900,6 +4362,22 @@ shaka.ads.ClientSideAd = class {
    * @param {HTMLMediaElement} video
    */
   constructor(imaAd, imaAdManager, video) {}
+  /**
+   * @override
+   */
+  needsSkipUI() {}
+  /**
+   * @override
+   */
+  isClientRendering() {}
+  /**
+   * @override
+   */
+  hasCustomClick() {}
+  /**
+   * @override
+   */
+  isUsingAnotherMediaElement() {}
   /**
    * @override
    */
@@ -3992,6 +4470,10 @@ shaka.ads.ClientSideAd = class {
    * @override
    */
   getVastMediaWidth() {}
+  /**
+   * @override
+   */
+  getVastAdId() {}
   /**
    * @override
    */
@@ -4209,12 +4691,29 @@ shaka.ads.Utils.AD_CONTENT_ATTACH_REQUESTED;
 shaka.ads.InterstitialAd = class {
   /**
    * @param {HTMLMediaElement} video
-   * @param {boolean} isSkippable
+   * @param {shaka.extern.AdInterstitial} interstitial
    * @param {function()} onSkip
    * @param {number} sequenceLength
    * @param {number} adPosition
+   * @param {boolean} isUsingAnotherMediaElement
    */
-  constructor(video, isSkippable, onSkip, sequenceLength, adPosition) {}
+  constructor(video, interstitial, onSkip, sequenceLength, adPosition, isUsingAnotherMediaElement) {}
+  /**
+   * @override
+   */
+  needsSkipUI() {}
+  /**
+   * @override
+   */
+  isClientRendering() {}
+  /**
+   * @override
+   */
+  hasCustomClick() {}
+  /**
+   * @override
+   */
+  isUsingAnotherMediaElement() {}
   /**
    * @override
    */
@@ -4307,6 +4806,161 @@ shaka.ads.InterstitialAd = class {
    * @override
    */
   getVastMediaWidth() {}
+  /**
+   * @override
+   */
+  getVastAdId() {}
+  /**
+   * @override
+   */
+  getAdId() {}
+  /**
+   * @override
+   */
+  getCreativeAdId() {}
+  /**
+   * @override
+   */
+  getAdvertiserName() {}
+  /**
+   * @override
+   */
+  getMediaUrl() {}
+  /**
+   * @override
+   */
+  getTimeOffset() {}
+  /**
+   * @override
+   */
+  getPodIndex() {}
+  /**
+   * @override
+   */
+  release() {}
+};
+/**
+ * @implements {shaka.extern.IAd}
+ */
+shaka.ads.InterstitialStaticAd = class {
+  /**
+   * @param {shaka.extern.AdInterstitial} interstitial
+   * @param {number} sequenceLength
+   * @param {number} adPosition
+   */
+  constructor(interstitial, sequenceLength, adPosition) {}
+  /**
+   * @override
+   */
+  needsSkipUI() {}
+  /**
+   * @override
+   */
+  isClientRendering() {}
+  /**
+   * @override
+   */
+  hasCustomClick() {}
+  /**
+   * @override
+   */
+  isUsingAnotherMediaElement() {}
+  /**
+   * @override
+   */
+  getDuration() {}
+  /**
+   * @override
+   */
+  getMinSuggestedDuration() {}
+  /**
+   * @override
+   */
+  getRemainingTime() {}
+  /**
+   * @override
+   */
+  isPaused() {}
+  /**
+   * @override
+   */
+  isSkippable() {}
+  /**
+   * @override
+   */
+  getTimeUntilSkippable() {}
+  /**
+   * @override
+   */
+  canSkipNow() {}
+  /**
+   * @override
+   */
+  skip() {}
+  /**
+   * @override
+   */
+  pause() {}
+  /**
+   * @override
+   */
+  play() {}
+  /**
+   * @override
+   */
+  getVolume() {}
+  /**
+   * @override
+   */
+  setVolume(volume) {}
+  /**
+   * @override
+   */
+  isMuted() {}
+  /**
+   * @override
+   */
+  isLinear() {}
+  /**
+   * @override
+   */
+  resize(width, height) {}
+  /**
+   * @override
+   */
+  setMuted(muted) {}
+  /**
+   * @override
+   */
+  getSequenceLength() {}
+  /**
+   * @override
+   */
+  getPositionInSequence() {}
+  /**
+   * @override
+   */
+  getTitle() {}
+  /**
+   * @override
+   */
+  getDescription() {}
+  /**
+   * @override
+   */
+  getVastMediaBitrate() {}
+  /**
+   * @override
+   */
+  getVastMediaHeight() {}
+  /**
+   * @override
+   */
+  getVastMediaWidth() {}
+  /**
+   * @override
+   */
+  getVastAdId() {}
   /**
    * @override
    */
@@ -4344,9 +4998,26 @@ shaka.ads.MediaTailorAd = class {
    * @param {mediaTailor.Ad} mediaTailorAd
    * @param {number} adPosition
    * @param {number} totalAds
+   * @param {boolean} isLinear
    * @param {HTMLMediaElement} video
    */
   constructor(mediaTailorAd, adPosition, totalAds, isLinear, video) {}
+  /**
+   * @override
+   */
+  needsSkipUI() {}
+  /**
+   * @override
+   */
+  isClientRendering() {}
+  /**
+   * @override
+   */
+  hasCustomClick() {}
+  /**
+   * @override
+   */
+  isUsingAnotherMediaElement() {}
   /**
    * @override
    */
@@ -4439,6 +5110,10 @@ shaka.ads.MediaTailorAd = class {
    * @override
    */
   getVastMediaWidth() {}
+  /**
+   * @override
+   */
+  getVastAdId() {}
   /**
    * @override
    */
@@ -4480,6 +5155,22 @@ shaka.ads.ServerSideAd = class {
   /**
    * @override
    */
+  needsSkipUI() {}
+  /**
+   * @override
+   */
+  isClientRendering() {}
+  /**
+   * @override
+   */
+  hasCustomClick() {}
+  /**
+   * @override
+   */
+  isUsingAnotherMediaElement() {}
+  /**
+   * @override
+   */
   getDuration() {}
   /**
    * @override
@@ -4569,6 +5260,10 @@ shaka.ads.ServerSideAd = class {
    * @override
    */
   getVastMediaWidth() {}
+  /**
+   * @override
+   */
+  getVastAdId() {}
   /**
    * @override
    */
@@ -4627,8 +5322,8 @@ shaka.ads.AdManager = class extends shaka.util.FakeEventTarget {
    */
   release() {}
   /**
-  * @override
-  */
+   * @override
+   */
   onAssetUnload() {}
   /**
    * @override
@@ -4646,7 +5341,7 @@ shaka.ads.AdManager = class extends shaka.util.FakeEventTarget {
    * @param {string} url
    * @param {Object} adsParams
    * @param {string=} backupUrl
-   * @return {!Promise.<string>}
+   * @return {!Promise<string>}
    * @override
    */
   requestMediaTailorStream(url, adsParams, backupUrl) {}
@@ -4662,7 +5357,7 @@ shaka.ads.AdManager = class extends shaka.util.FakeEventTarget {
   /**
    * @param {!google.ima.dai.api.StreamRequest} imaRequest
    * @param {string=} backupUrl
-   * @return {!Promise.<string>}
+   * @return {!Promise<string>}
    * @override
    */
   requestServerSideStream(imaRequest, backupUrl) {}
@@ -4671,12 +5366,12 @@ shaka.ads.AdManager = class extends shaka.util.FakeEventTarget {
    */
   replaceServerSideAdTagParameters(adTagParameters) {}
   /**
-   * @return {!Array.<!shaka.extern.AdCuePoint>}
+   * @return {!Array<!shaka.extern.AdCuePoint>}
    * @override
    */
   getServerSideCuePoints() {}
   /**
-   * @return {!Array.<!shaka.extern.AdCuePoint>}
+   * @return {!Array<!shaka.extern.AdCuePoint>}
    * @override
    */
   getCuePoints() {}
@@ -4704,7 +5399,23 @@ shaka.ads.AdManager = class extends shaka.util.FakeEventTarget {
   /**
    * @override
    */
-  onInterstitialMetadata(basePlayer, baseVideo, interstitial) {}
+  onHLSInterstitialMetadata(basePlayer, baseVideo, interstitial) {}
+  /**
+   * @override
+   */
+  onDASHInterstitialMetadata(basePlayer, baseVideo, region) {}
+  /**
+   * @override
+   */
+  addCustomInterstitial(interstitial) {}
+  /**
+   * @override
+   */
+  addAdUrlInterstitial(url) {}
+  /**
+   * @override
+   */
+  getInterstitialPlayer() {}
 };
 /**
  * The event name for when a sequence of ads has been loaded.
@@ -5131,19 +5842,25 @@ shaka.util.PeriodCombiner = class {
   /** */
   constructor() {}
   /**
-   * @return {!Array.<shaka.extern.Variant>}
+   * @return {!Array<shaka.extern.Variant>}
    */
   getVariants() {}
   /**
-   * @return {!Array.<shaka.extern.Stream>}
-  */
+   * @return {!Array<shaka.extern.Stream>}
+   */
   getTextStreams() {}
   /**
-   * @return {!Array.<shaka.extern.Stream>}
+   * @return {!Array<shaka.extern.Stream>}
    */
   getImageStreams() {}
   /**
-   * @param {!Array.<shaka.extern.Period>} periods
+   * Deletes a stream from matchedStreams because it is no longer needed
+   * @param {?shaka.extern.Stream} stream
+   * @param {string} periodId
+   */
+  deleteStream(stream, periodId) {}
+  /**
+   * @param {!Array<shaka.extern.Period>} periods
    * @param {boolean} isDynamic
    * @param {boolean=} isPatchUpdate
    * @return {!Promise}
@@ -5156,7 +5873,7 @@ shaka.util.PeriodCombiner = class {
   setAllowMultiTypeVariants(allowed) {}
   /**
    * @param {boolean} useOnce if true, stream will be used only once in period
-   *   flattening algoritnm.
+   *   flattening algorithm.
    */
   setUseStreamOnce(useOnce) {}
 };
@@ -5168,9 +5885,11 @@ shaka.dash.DashParser = class {
   /** Creates a new DASH parser. */
   constructor() {}
   /**
+   * @param {shaka.extern.ManifestConfiguration} config
+   * @param {(function():boolean)=} isPreloadFn
    * @override
    */
-  configure(config) {}
+  configure(config, isPreloadFn) {}
   /**
    * @override
    */
@@ -5249,9 +5968,11 @@ shaka.hls.HlsParser = class {
    */
   constructor() {}
   /**
+   * @param {shaka.extern.ManifestConfiguration} config
+   * @param {(function():boolean)=} isPreloadFn
    * @override
    */
-  configure(config) {}
+  configure(config, isPreloadFn) {}
   /**
    * @override
    */
@@ -5289,9 +6010,11 @@ shaka.mss.MssParser = class {
   /** Creates a new MSS parser. */
   constructor() {}
   /**
+   * @param {shaka.extern.ManifestConfiguration} config
+   * @param {(function():boolean)=} isPreloadFn
    * @override
    */
-  configure(config) {}
+  configure(config, isPreloadFn) {}
   /**
    * @override
    */
@@ -5329,9 +6052,10 @@ shaka.net.HttpFetchPlugin = class {
    *   progress event happened.
    * @param {shaka.extern.HeadersReceived} headersReceived Called when the
    *   headers for the download are received, but before the body is.
+   * @param {shaka.extern.SchemePluginConfig} config
    * @return {!shaka.extern.IAbortableOperation.<shaka.extern.Response>}
    */
-  static parse(uri, request, requestType, progressUpdated, headersReceived) {}
+  static parse(uri, request, requestType, progressUpdated, headersReceived, config) {}
   /**
    * Determine if the Fetch API is supported in the browser. Note: this is
    * deliberately exposed as a method to allow the client app to use the same
@@ -5352,9 +6076,10 @@ shaka.net.HttpXHRPlugin = class {
    *   progress event happened.
    * @param {shaka.extern.HeadersReceived} headersReceived Called when the
    *   headers for the download are received, but before the body is.
+   * @param {shaka.extern.SchemePluginConfig} config
    * @return {!shaka.extern.IAbortableOperation.<shaka.extern.Response>}
    */
-  static parse(uri, request, requestType, progressUpdated, headersReceived) {}
+  static parse(uri, request, requestType, progressUpdated, headersReceived, config) {}
 };
 /**
  * StorageMuxer is responsible for managing StorageMechanisms and addressing
@@ -5392,6 +6117,13 @@ shaka.offline.StorageMuxer = class {
    */
   static unregister(name) {}
 };
+/**
+ * Timeout in seconds for opening the IndexedDB database,
+ * or <code>false</code> to disable the timeout and wait indefinitely
+ * for the database to open successfully or fail.
+ * @type {number|boolean}
+ */
+shaka.offline.indexeddb.StorageMechanismOpenTimeout;
 /**
  * @summary A plugin that handles requests for offline content.
  */
@@ -5480,8 +6212,12 @@ shaka.offline.Storage = class {
    *   application-specific metadata you need associated with the stored
    *   content.  For details on the data types that can be stored here, please
    *   refer to {@link https://bit.ly/StructClone}
-   * @param {string=} mimeType
+   * @param {?string=} mimeType
    *   The mime type for the content |manifestUri| points to.
+   * @param {?Array<string>=} externalThumbnails
+   *   The external thumbnails to store along the main content.
+   * @param {?Array<shaka.extern.ExtraText>=} externalText
+   *   The external text to store along the main content.
    * @return {!shaka.extern.IAbortableOperation.<shaka.extern.StoredContent>}
    *   An AbortableOperation that resolves with a structure representing what
    *   was stored.  The "offlineUri" member is the URI that should be given to
@@ -5490,7 +6226,7 @@ shaka.offline.Storage = class {
    *   If you want to cancel this download, call the "abort" method on
    *   AbortableOperation.
    */
-  store(uri, appMetadata, mimeType) {}
+  store(uri, appMetadata, mimeType, externalThumbnails, externalText) {}
   /**
    * Removes the given stored content.  This will also attempt to release the
    * licenses, if any.
@@ -5499,14 +6235,26 @@ shaka.offline.Storage = class {
    */
   remove(contentUri) {}
   /**
-   * Removes any EME sessions that were not successfully removed before.  This
-   * returns whether all the sessions were successfully removed.
-   * @return {!Promise.<boolean>}
+   * Removes any orphaned EME sessions.
+   * When DRM content is stored offline with a persistent session, the DRM
+   * session ID is stored in the offline content database. When DRM content
+   * gets deleted from the database, EME is asked to release the underlying
+   * session attached to that ID.
+   * If for some reason that fails, or if the browser is closed before that
+   * asynchronous process is completed, session IDs must still be tracked in
+   * the database. Otherwise, they would get orphaned and there would be no way
+   * to discover them or clean them up.
+   * This method will clean up any orphaned, persistent DRM sessions that the
+   * database is still tracking. It should be called on application startup,
+   * and will do nothing if there are no orphaned DRM sessions. It returns a
+   * Promise that resolves to true if all the sessions were successfully
+   * removed, or false if there are still sessions remaining.
+   * @return {!Promise<boolean>}
    */
   removeEmeSessions() {}
   /**
    * Lists all the stored content available.
-   * @return {!Promise.<!Array.<shaka.extern.StoredContent>>}  A Promise to an
+   * @return {!Promise<!Array<shaka.extern.StoredContent>>}  A Promise to an
    *   array of structures representing all stored content.  The "offlineUri"
    *   member of the structure is the URI that should be given to Player.load()
    *   to play this piece of content offline.  The "appMetadata" member is the
@@ -5540,20 +6288,6 @@ shaka.polyfill = class {
   static register(polyfill, priority) {}
 };
 /**
- * @summary A polyfill for systems that do not implement AbortController.
- * This is used both with the fetch API for HTTP requests and inside the HLS
- * parser.
- * @extends AbortController
- */
-shaka.polyfill.AbortController = class {
-  /**
-   * Install the polyfill if needed.
-   */
-  static install() {}
-  /** */
-  constructor() {}
-};
-/**
  * @summary A polyfill to add support for the ARIAMixin interface mixin, for
  * browsers that do not implement it (e.g. Firefox).
  * Note that IE also does not support ARIAMixin, but this polyfill does not work
@@ -5568,15 +6302,19 @@ shaka.polyfill.Aria = class {
   static install() {}
 };
 /**
- * @summary A polyfill to add support for EncryptionScheme queries in EME.
+ * A polyfill to add support for EncryptionScheme queries in EME.
+ * Because this polyfill can't know what schemes the UA or CDM actually support,
+ * it assumes support for the historically-supported schemes of each well-known
+ * key system.
  * @see https://wicg.github.io/encrypted-media-encryption-scheme/
  * @see https://github.com/w3c/encrypted-media/pull/457
- * @see https://github.com/shaka-project/eme-encryption-scheme-polyfill
  */
-shaka.polyfill.EncryptionScheme = class {
+shaka.polyfill.EmeEncryptionScheme = class {
   /**
-   * Install the polyfill if needed.
-   * @suppress {missingRequire}
+   * Installs the polyfill.  To avoid the possibility of extra user prompts,
+   * this will shim EME so long as it exists, without checking support for
+   * encryptionScheme upfront.  The support check will happen on-demand the
+   * first time EME is used.
    */
   static install() {}
 };
@@ -5589,6 +6327,23 @@ shaka.polyfill.EncryptionScheme = class {
 shaka.polyfill.Fullscreen = class {
   /**
    * Install the polyfill if needed.
+   */
+  static install() {}
+};
+/**
+ * A polyfill to add support for EncryptionScheme queries in MediaCapabilities.
+ * Because this polyfill can't know what schemes the UA or CDM actually support,
+ * it assumes support for the historically-supported schemes of each well-known
+ * key system.
+ * @see https://wicg.github.io/encrypted-media-encryption-scheme/
+ * @see https://github.com/w3c/encrypted-media/pull/457
+ */
+shaka.polyfill.MCapEncryptionScheme = class {
+  /**
+   * Installs the polyfill.  To avoid the possibility of extra user prompts,
+   * this will shim MC so long as it exists, without checking support for
+   * encryptionScheme upfront.  The support check will happen on-demand the
+   * first time MC is used.
    */
   static install() {}
 };
@@ -5611,14 +6366,6 @@ shaka.polyfill.MediaCapabilities = class {
  * @type {MediaCapabilities}
  */
 shaka.polyfill.MediaCapabilities.originalMcap;
-/**
- * A cache that stores the canDisplayType result of calling
- * `cast.__platform__.canDisplayType`.
- * @type {(Object<(!string), (!boolean)>)}
- */
-shaka.polyfill.MediaCapabilities.memoizedCanDisplayTypeRequests_ = {
-
-};
 /**
  * @summary A polyfill to patch MSE bugs.
  */
@@ -5665,18 +6412,6 @@ shaka.polyfill.PatchedMediaKeysCert = class {
   static install() {}
 };
 /**
- * @summary A polyfill to stub out
- * {@link https://bit.ly/EmeMar15 EME draft 12 March 2015} on browsers without
- * EME.
- * All methods will fail.
- */
-shaka.polyfill.PatchedMediaKeysNop = class {
-  /**
-   * Installs the polyfill if needed.
-   */
-  static install() {}
-};
-/**
  * @summary A polyfill to implement
  * {@link https://bit.ly/EmeMar15 EME draft 12 March 2015} on top of
  * webkit-prefixed {@link https://bit.ly/Eme01b EME v0.1b}.
@@ -5717,6 +6452,16 @@ shaka.polyfill.Symbol = class {
   static install() {}
 };
 /**
+ * @summary A polyfill to provide missing TypedArray methods for older
+ * browsers (indexOf/lastIndexOf/includes).
+ */
+shaka.polyfill.TypedArray = class {
+  /**
+   * Install the polyfill if needed.
+   */
+  static install() {}
+};
+/**
  * @summary A polyfill to silence the play() Promise in HTML5 video.
  */
 shaka.polyfill.VideoPlayPromise = class {
@@ -5744,6 +6489,52 @@ shaka.polyfill.VTTCue = class {
    * Install the polyfill if needed.
    */
   static install() {}
+};
+/**
+ * @implements {shaka.extern.IQueueManager}
+ * @implements {shaka.util.IDestroyable}
+ */
+shaka.queue.QueueManager = class extends shaka.util.FakeEventTarget {
+  /**
+   * @param {shaka.Player} player
+   */
+  constructor(player) {}
+  /**
+   * @override
+   */
+  destroy() {}
+  /**
+   * @override
+   */
+  configure(config) {}
+  /**
+   * @override
+   */
+  getConfiguration() {}
+  /**
+   * @override
+   */
+  getCurrentItem() {}
+  /**
+   * @override
+   */
+  getCurrentItemIndex() {}
+  /**
+   * @override
+   */
+  getItems() {}
+  /**
+   * @override
+   */
+  insertItems(items) {}
+  /**
+   * @override
+   */
+  removeAllItems() {}
+  /**
+   * @override
+   */
+  playItem(itemIndex) {}
 };
 /**
  * LRC file format: https://en.wikipedia.org/wiki/LRC_(file_format)
@@ -5786,7 +6577,7 @@ shaka.text.TtmlTextParser = class {
   /**
    * @override
    */
-  parseMedia(data, time, uri) {}
+  parseMedia(data, time, uri, images) {}
 };
 /**
  * @implements {shaka.extern.TextParser}
@@ -6162,6 +6953,13 @@ shaka.transmuxer.TsTransmuxer = class {
   transmux(data, stream, reference, duration, contentType) {}
 };
 /**
+ * @summary A set of FairPlay utility functions. DEPRECATED: Please use
+ *          shaka.drm.FairPlay instead.
+ * @deprecated
+ */
+shaka.util.FairPlayUtils = class extends shaka.drm.FairPlay {
+};
+/**
  * @implements {shaka.extern.IUIElement}
  * @abstract
  */
@@ -6212,18 +7010,7 @@ shaka.ui.Element.prototype.ad;
  * @extends {shaka.ui.Element}
  * @final
  */
-shaka.ui.AdCounter = class extends shaka.ui.Element {
-  /**
-   * @param {!HTMLElement} parent
-   * @param {!shaka.ui.Controls} controls
-   */
-  constructor(parent, controls) {}
-};
-/**
- * @extends {shaka.ui.Element}
- * @final
- */
-shaka.ui.AdPosition = class extends shaka.ui.Element {
+shaka.ui.AdInfo = class extends shaka.ui.Element {
   /**
    * @param {!HTMLElement} parent
    * @param {!shaka.ui.Controls} controls
@@ -6240,6 +7027,9 @@ shaka.ui.ContextMenu = class extends shaka.ui.Element {
    * @param {!shaka.ui.Controls} controls
    */
   constructor(parent, controls) {}
+  /**
+   */
+  closeMenu() {}
   /**
    * @param {string} name
    * @param {!shaka.extern.IUIElement.Factory} factory
@@ -6313,8 +7103,8 @@ shaka.ui.RangeElement = class extends shaka.ui.Element {
   /**
    * @param {!HTMLElement} parent
    * @param {!shaka.ui.Controls} controls
-   * @param {!Array.<string>} containerClassNames
-   * @param {!Array.<string>} barClassNames
+   * @param {!Array<string>} containerClassNames
+   * @param {!Array<string>} barClassNames
    */
   constructor(parent, controls, containerClassNames, barClassNames) {}
   /**
@@ -6397,9 +7187,11 @@ shaka.ui.Controls = class extends shaka.util.FakeEventTarget {
    */
   constructor(player, videoContainer, video, vrCanvas, config) {}
   /**
+   * @param {boolean=} forceDisconnect If true, force the receiver app to shut
+   *   down by disconnecting.  Does nothing if not connected.
    * @override
    */
-  destroy() {}
+  destroy(forceDisconnect) {}
   /**
    * @param {string} name
    * @param {!shaka.extern.IUIElement.Factory} factory
@@ -6632,6 +7424,31 @@ shaka.ui.AirPlayButton = class extends shaka.ui.Element {
   constructor(parent, controls) {}
 };
 /**
+ * A UI component that adds watermark functionality to the Shaka Player.
+ * Allows adding text watermarks with various customization options.
+ * @extends {shaka.ui.Element}
+ * @final
+ */
+shaka.ui.Watermark = class extends shaka.ui.Element {
+  /**
+   * Creates a new Watermark instance.
+   * @param {!HTMLElement} parent The parent element for the watermark canvas
+   * @param {!shaka.ui.Controls} controls The controls instance
+   */
+  constructor(parent, controls) {}
+  /**
+   * Sets a text watermark on the video with customizable options.
+   * The watermark can be either static (fixed position) or dynamic (moving).
+   * @param {string} text The text to display as watermark
+   * @param {?shaka.ui.Watermark.Options=} options  configuration options
+   */
+  setTextWatermark(text, options) {}
+  /**
+   * Removes the current watermark from the video and stops any animations.
+   */
+  removeWatermark() {}
+};
+/**
  * @implements {shaka.util.IDestroyable}
  */
 shaka.ui.Overlay = class {
@@ -6643,15 +7460,23 @@ shaka.ui.Overlay = class {
    */
   constructor(player, videoContainer, video, vrCanvas) {}
   /**
+   * @param {boolean=} forceDisconnect If true, force the receiver app to shut
+   *   down by disconnecting.  Does nothing if not connected.
    * @override
    */
-  destroy() {}
+  destroy(forceDisconnect) {}
   /**
    * Detects if this is a mobile platform, in case you want to choose a
    * different UI configuration on mobile devices.
    * @return {boolean}
    */
   isMobile() {}
+  /**
+   * Detects if this is a smart tv platform, in case you want to choose a
+   * different UI configuration on smart tv devices.
+   * @return {boolean}
+   */
+  isSmartTV() {}
   /**
    * @return {!shaka.extern.UIConfiguration}
    */
@@ -6673,6 +7498,14 @@ shaka.ui.Overlay = class {
    * @param {boolean} enabled
    */
   setEnabled(enabled) {}
+  /**
+   * @param {string} text
+   * @param {?shaka.ui.Watermark.Options=} options
+   */
+  setTextWatermark(text, options) {}
+  /**
+   */
+  removeWatermark() {}
 };
 /**
  * Describes what information should show up in labels for selecting audio
@@ -6721,6 +7554,17 @@ shaka.ui.AudioLanguageSelection = class extends shaka.ui.SettingsMenu {
  * @final
  */
 shaka.ui.CastButton = class extends shaka.ui.Element {
+  /**
+   * @param {!HTMLElement} parent
+   * @param {!shaka.ui.Controls} controls
+   */
+  constructor(parent, controls) {}
+};
+/**
+ * @extends {shaka.ui.SettingsMenu}
+ * @final
+ */
+shaka.ui.ChapterSelection = class extends shaka.ui.SettingsMenu {
   /**
    * @param {!HTMLElement} parent
    * @param {!shaka.ui.Controls} controls
@@ -6853,6 +7697,17 @@ shaka.ui.RewindButton = class extends shaka.ui.Element {
  * @final
  */
 shaka.ui.SaveVideoFrameButton = class extends shaka.ui.Element {
+  /**
+   * @param {!HTMLElement} parent
+   * @param {!shaka.ui.Controls} controls
+   */
+  constructor(parent, controls) {}
+};
+/**
+ * @extends {shaka.ui.Element}
+ * @final
+ */
+shaka.ui.SkipNextButton = class extends shaka.ui.Element {
   /**
    * @param {!HTMLElement} parent
    * @param {!shaka.ui.Controls} controls
