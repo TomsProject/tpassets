@@ -32,4 +32,4 @@ As far as we know, Edgecenter(former Gcore, detail: https://s.tp.je/32K2p )'s CD
 Edgecenter's CDN doesn't support HTTP3/QUIC now(in beta), but this is going to be solved soon.
 Edgecenter's CDN does support Brotli Compression now, but we need to buy a very expensive origin shield, so we WON'T FELL INTO THIS TRAP(lol)
 
-Toms Project, 2025
+Toms Project, 2026
